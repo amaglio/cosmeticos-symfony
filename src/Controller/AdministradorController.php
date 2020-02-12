@@ -19,7 +19,7 @@ class AdministradorController extends AbstractController
     }
 
     /**
-     * @Route("/response", name="response")
+     * @Route("/response2", name="response")
      */
     public function response()
     {

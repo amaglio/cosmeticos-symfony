@@ -1,0 +1,13 @@
+{
+    "sqltools.connections": [
+        {
+            "askForPassword": true,
+            "database": "cosmeticos",
+            "dialect": "MySQL",
+            "name": "mysqlLocalhost",
+            "port": 3306,
+            "server": "localhost",
+            "username": "admin"
+        }
+    ]
+}
