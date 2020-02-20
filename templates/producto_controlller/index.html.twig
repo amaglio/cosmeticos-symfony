@@ -9,12 +9,11 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/adri/cosmeticos-symfony/src/Controller/ProductoControlllerController.php'|file_link(0) }}">src/Controller/ProductoControlllerController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/adri/cosmeticos-symfony/templates/producto_controlller/index.html.twig'|file_link(0) }}">templates/producto_controlller/index.html.twig</a></code></li>
+    <h1>Hello {{ controller_name }}! ✅</h1> 
+    <ul>{{ dump(productos) }}
+        {% for producto in productos %}
+            <li>{{ producto.nombre }}</li>
+        {% endfor %} 
     </ul>
 </div>
 {% endblock %}

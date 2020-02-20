@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+ 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductoRepository")
@@ -45,6 +46,11 @@ class Producto
      * @ORM\Column(type="integer", nullable=true)
      */
     private $codigo;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enabled = true;
 
     public function getId(): ?int
     {
@@ -119,6 +125,18 @@ class Producto
     public function setCodigo(?int $codigo): self
     {
         $this->codigo = $codigo;
+
+        return $this;
+    }
+
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
 
         return $this;
     }
