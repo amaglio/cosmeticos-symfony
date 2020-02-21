@@ -1,4 +1,7 @@
 {
+    "datatables/datatables": {
+        "version": "1.10.19"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
