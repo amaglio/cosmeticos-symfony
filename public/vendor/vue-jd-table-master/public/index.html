@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+		<link rel="icon" href="./favicon.ico">
+
+		<title>JD-Table</title>
+
+		<!-- Polyfill -->
+		<script src="https://polyfill.io/v3/polyfill.js?features=es5,es6,es7&flags=gated"></script>
+
+		<!-- VueJS -->
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+		<!-- JD-Table Vue Component -->
+		<script type="text/javascript" src="./component.js"></script>
+
+		<!-- JD-Table Styles -->
+		<link rel="stylesheet" href="component.css">
+
+		<!-- Font Awesome (Free) -->
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+		<!-- Font -->
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+		<style>
+			body
+			{
+				font-family : 'Roboto', sans-serif;
+			}
+		</style>
+	</head>
+
+	<body>
+		<noscript>
+			<strong>We're sorry but JD-Table doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+		</noscript>
+
+		<div id="app">
+			<JDTable
+				:option                 = "tableOptions"
+				:loader                 = "tableLoader"
+				:event-from-app         = "eventFromApp"
+				:event-from-app-trigger = "eventFromAppTrigger"
+				@event-from-jd-table    = "processEventFromApp( $event )"
+			/>
+
+			<iframe id="excelExportArea" style="display:none"></iframe>
+		</div>
+
+		<script type="text/javascript">
+			const app = new Vue
+			({
+				el : '#app',
+
+				data :
+				{
+					tableOptions : {},
+
+					eventFromApp  :
+					{
+						name : null,
+						data : null
+					},
+
+					eventFromAppTrigger : false,
+
+					tableLoader : false,
+
+					columns :
+					[
+						{
+							name       : 'column1',
+							title      : 'Numbers',
+							order      : 1,
+							type       : 'Number',
+							filterable : true,
+							enabled    : true,
+							sort          : true,
+							sortDirection : 'asc',
+							width         : 100,
+						},
+						{
+							name        : 'column2',
+							title       : 'Strings',
+							order       : 2,
+							type        : 'String',
+							filterable  : true,
+							enabled     : true,
+							width       : 100,
+						},
+						{
+							name        : 'column3',
+							title       : 'IP Sorting',
+							order       : 3,
+							type        : 'String',
+							filterable  : true,
+							enabled     : true,
+							width       : 100,
+							sortSpecial : 'IP',
+						},
+						{
+							name       : 'column4',
+							title      : 'Arrays',
+							order      : 4,
+							type       : 'Array',
+							filterable : true,
+							enabled    : true,
+							width      : 100,
+						}
+					]
+				},
+
+				created : function ()
+				{
+					// You don't have to configure all these settings (this is just an example).
+					this.tableOptions =
+					{
+						dataProvider : 0,
+
+						title               : 'JD-Table',
+						columns             : this.columns,
+
+						startBySearch                : false,
+						startBySearchMessage         : 'To display data, either search or apply a filter.',
+						startBySearchArrowSearch     : true,
+						startBySearchArrowFilter     : true,
+						startBySearchArrowSearchText : 'Search Here!',
+						startBySearchArrowFilterText : 'Filter by Column',
+
+						maxMinimize           : true,
+						addNew                : false,
+						editItem              : false,
+						refresh               : true,
+						search                : true,
+						columnSelect          : true,
+						resize                : true,
+						filter                : true,
+						export                : true,
+						exportLimit           : 5000,
+						columnSort            : true,
+						quickView             : 1,
+						contextMenuLeft       : false,
+						contextMenuRight      : true,
+						viewItem              : true,
+						editItem              : true,
+						deleteItem            : true,
+
+						renderEngine          : 2,
+						responsiveFrame       : false,
+						responsiveTable       : false,
+						virtualEngineRowStart : 500,
+						frameWidth            : 800,
+						headerHeight          : 40,
+						dataHeight            : 400,
+						rowHeight             : 38,
+						paginationRowLimits   : [50, 75, 100],
+						paginationRowStart    : 50,
+						paginationRowAll      : false,
+						pageSideQuantity      : 5,
+
+						forceSearchOpen     : true,
+						searchPlaceHolder   : 'Search ...',
+
+						startMaximized      : false,
+						forceMaximized      : false,
+						rowZebra            : true,
+						rowFlex             : true,
+						resizeForceMinWidth : true,
+
+						highlight           : true,
+						controls            : true,
+						footer              : true,
+
+						views               :
+						[
+							{
+								viewName : 'Slim',
+								schema   :
+								[
+									{
+										name          : 'column1',
+										title         : 'Numbers',
+										order         : 1,
+										type          : 'String',
+										filterable    : true,
+										enabled       : true,
+										sort          : true,
+										sortDirection : 'asc',
+										width         : 100,
+									},
+									{
+										name        : 'column2',
+										title       : 'Strings',
+										order       : 2,
+										type        : 'String',
+										filterable  : true,
+										enabled     : true,
+										width       : 100,
+									}
+								]
+							}
+						]
+					};
+				},
+
+				mounted : function ()
+				{
+					this.sendData();
+				},
+
+				methods :
+				{
+					sendData : function ()
+					{
+						// Enable the table loader.
+						this.tableLoader = true;
+
+						var data = [];
+
+						for( let i = 0; i < 30; i++ )
+						{
+							data.push
+							({
+								column1 : String(i),
+								column4 : [ 'Value #' + i, 'Value #' + (i + 1) ]
+							})
+						}
+
+						// Strings
+						data[0].column2 = 'Harper-Rose Garrison';
+						data[1].column2 = 'Milena Frey';
+						data[2].column2 = 'Vincent Kaye';
+						data[3].column2 = 'Livia Campos';
+						data[4].column2 = 'Hashim Floyd';
+						data[5].column2 = 'Finnlay Russell';
+						data[6].column2 = 'Niyah Palmer';
+						data[7].column2 = 'Divine Harrison';
+						data[8].column2 = 'Dawud Bouvet';
+						data[9].column2 = 'Nadia Millar';
+						data[10].column2 = 'Codey Hampton';
+						data[11].column2 = 'Gabriel Paul';
+						data[12].column2 = 'Aiesha Anderson';
+						data[13].column2 = 'Alyce Davison';
+						data[14].column2 = 'Kendra Howarth';
+						data[15].column2 = 'Kenya Oakley';
+						data[16].column2 = 'Keanan Rice';
+						data[17].column2 = 'Georgina Winters';
+						data[18].column2 = 'Myron Grainger';
+						data[19].column2 = 'Justine Mcdonald';
+						data[20].column2 = 'Sadia Adam';
+						data[21].column2 = 'Betsy Hills';
+						data[22].column2 = 'Jacob Zuniga';
+						data[23].column2 = 'Colleen Wong';
+						data[24].column2 = 'Kieron Young';
+						data[25].column2 = 'Meredith Douglas';
+						data[26].column2 = 'Milton Harvey';
+						data[27].column2 = 'Anne-Marie Edwards';
+						data[28].column2 = 'Ella-Mai Torres';
+						data[29].column2 = 'Roland Trevino';
+
+						// IP's
+						data[0].column3 = null;
+						data[1].column3 = null;
+						data[2].column3 = '10.124.100.155';
+						data[3].column3 = '10.124.100.211';
+						data[4].column3 = '10.124.9.33';
+						data[5].column3 = '10.124.100.12';
+						data[6].column3 = null;
+						data[7].column3 = '10.124.100.2';
+						data[8].column3 = '10.124.100.10';
+						data[9].column3 = '10.124.12.10';
+						data[10].column3 = null;
+						data[11].column3 = '10.124.25.160';
+						data[12].column3 = '10.124.25.163';
+						data[13].column3 = '146.184.248.92';
+						data[14].column3 = null;
+						data[15].column3 = '10.164.100.10';
+						data[16].column3 = '124124';
+						data[17].column3 = '10.125.2.199';
+						data[18].column3 = '10.124.200.10';
+						data[19].column3 = null;
+						data[20].column3 = '156.144.28.111';
+						data[21].column3 = '146.184.121.114';
+						data[22].column3 = '10.68.7.216';
+						data[23].column3 = '';
+						data[24].column3 = '156.34.18.111';
+						data[25].column3 = '146.184.163.124';
+						data[26].column3 = null;
+						data[27].column3 = '146.184.163.44';
+						data[28].column3 = '146.184.164.35';
+						data[29].column3 = '10.124.25.164';
+
+						data = JSON.stringify( data );
+
+						this.eventFromApp =
+						{
+							name           : 'sendData',
+							payload        : JSON.parse( data ),
+							componentState :
+							{
+								searchApplied   : null,
+								searchText      : null,
+								filterApplied   : null,
+								pageLimit       : null,
+								currentPage     : null,
+								sortColumn      : null,
+								sortColumnIndex : null,
+								sortDirection   : null,
+								sortSpecial     : null,
+								currentView     : null
+							}
+						};
+
+						this.triggerEvent();
+
+						// Disable the table loader.
+						this.tableLoader = false;
+					},
+
+					setTableState : function ()
+					{
+						this.eventFromApp =
+						{
+							name           : 'setState',
+							componentState :
+							{
+								searchApplied : true,
+								searchText    : 'Testing',
+								filterApplied : null,
+								pageLimit     : null,
+								currentPage   : null,
+								lastAction    : null,
+								sortColumn    : null,
+								sortDirection : null,
+								sortSpecial   : null,
+								selectedItem  : null,
+								selectedIndex : null,
+								currentView   : null
+							}
+						};
+
+						this.triggerEvent();
+					},
+
+					// Triggers the currently queued JD-Table event to run.
+					triggerEvent : function ()
+					{
+						// Trigger the event.
+						this.eventFromAppTrigger = true;
+
+						// Reset the trigger event.
+						this.$nextTick( function ()
+						{
+							this.eventFromAppTrigger = false;
+						});
+					},
+
+					// Triggered when the JD-Table emits a "eventFromJDTable" event.
+					processEventFromApp : function ( componentState )
+					{
+						if ( componentState.lastAction === 'Refresh' )
+						{
+							this.sendData();
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

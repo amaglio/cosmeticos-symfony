@@ -19,32 +19,29 @@ class ProductoRepository extends ServiceEntityRepository
         parent::__construct($registry, Producto::class);
     }
 
-    // /**
-    //  * @return Producto[] Returns an array of Producto objects
-    //  */
     /*
-    public function findByExampleField($value)
+    public function transform(Producto $producto)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        return [
+                'id'    => (int) $producto->getId(),
+                'nombre' => (string) $producto->getNombre(),
+                'precioCosto' => (float) $producto->getPrecioCosto()
+        ];
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Producto
+    public function getProductosEnabled()
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+        $productos = $this->findBy(
+            ['enabled' => 1 ] 
+        ); 
+
+        $productosArray = [];
+
+        foreach ($productos as $producto) {
+            $productosArray[] = $this->transform($producto);
+        }
+
+        return $productosArray;
+    }*/
+    
 }

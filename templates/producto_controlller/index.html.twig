@@ -1,20 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductoControlllerController!{% endblock %}
+{% block title %} Productos {% endblock %}
 
 {% block body %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
+ 
+<div class="example-wrapper" id="productos">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h2>[[titulo]]</h2>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/adri/cosmeticos-symfony/src/Controller/ProductoControlllerController.php'|file_link(0) }}">src/Controller/ProductoControlllerController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/adri/cosmeticos-symfony/templates/producto_controlller/index.html.twig'|file_link(0) }}">templates/producto_controlller/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <a href="{{ path('v_crear_producto') }}" class="btn btn-info btn-s"> Crear + </a> 
+
+    {% if productos %}
+
+        <table class="table table-stripped">
+            
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Precio Costo</th>
+                <th>Acciones</th>
+            </tr>
+       
+        
+            {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.id  }} </td>
+                    <td>{{ producto.nombre }} </td> 
+                    <td>{{ producto.getPrecioCosto() }} </td>
+                    <td> <a href="" class="btn btn-primary"> Editar </a> 
+                        <a href="" class="btn btn-danger"> Eliminar </a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </table>
+         
+    {% endif %}
+
+</div> 
+ 
 {% endblock %}

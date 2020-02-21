@@ -2,43 +2,87 @@
 
 namespace App\Controller;
 
-use App\Entity\Producto;
+use App\Entity\Producto; 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route; 
+use App\FormCrear\PostType; 
+use Symfony\Component\HttpFoundation\Request;  
 
 class ProductoControlllerController extends AbstractController
 {
     /**
-     * @Route("/producto/controlller", name="producto_controlller")
+     * @Route("/productos", name="producto_controlller")
+     * Productos habilitados
      */
     public function index()
-    {
+    {   
+        $repository = $this->getDoctrine()->getRepository(Producto::class);
+
+        $productos = $repository->findBy(
+            ['enabled' => 1 ] 
+        ); 
+ 
         return $this->render('producto_controlller/index.html.twig', [
-            'controller_name' => 'ProductoControlllerController',
-        ]);
-    }
+            'controller_name' => 'Productos',
+            'productos' => $productos
+        ]); 
+    }   
+
 
     /**
-     * @Route("/producto", name="create_product")
+     * @Route("/productos/crear", name="v_crear_producto")
      */
-    public function createProduct(): Response
+    public function v_crear_producto(Request $request)
     {
-        // you can fetch the EntityManager via $this->getDoctrine()
-        // or you can add an argument to the action: createProduct(EntityManagerInterface $entityManager)
-        $entityManager = $this->getDoctrine()->getManager();
+         $producto = new Producto();
+        
+        $form = $this->createForm(PostType::class, $producto);
 
-        $producto = new Producto();
-        $producto->setNombre('Keyboard');
-        $producto->setPrecioCosto(150);
-        $producto->setStock(10);
+        $form->handleRequest($request);
 
-        // tell Doctrine you want to (eventually) save the producto (no queries yet)
-        $entityManager->persist($producto);
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $task = $form->getData();
 
-        // actually executes the queries (i.e. the INSERT query)
-        $entityManager->flush();
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($task);
+            $entityManager->flush();
 
-        return new Response('Saved new product with id '.$producto->getId());
+            return $this->redirectToRoute('producto_controlller');
+        }
+        else
+        {
+            return $this->render('producto_controlller/crear.html.twig', array(
+                'form' => $form->createView(),
+            ));
+
+        }
+        
+        
     }
-}
+    
+
+
+   
+    /**
+     * @Route("/productos/traer", name="json_producto")
+     * Productos JSON
+     */
+    public function find_productos()
+    {   
+        $repository = $this->getDoctrine()->getRepository(Producto::class);
+
+        $productos = $repository->findBy(
+            ['enabled' => 1 ] 
+        ); 
+
+        return $this->json($productos);
+      
+    }   
+
+
+}   
