@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductoControlllerController!{% endblock %}
+
+{% block body %}
+ 
+{{ id }}
+
+{{ form_start(form, {attr: {class: 'my-form-class'} }) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+
+{% endblock %}

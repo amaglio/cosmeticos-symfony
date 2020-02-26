@@ -30,9 +30,10 @@
                 <tr>
                     <td>{{ producto.id  }} </td>
                     <td>{{ producto.nombre }} </td> 
-                    <td>{{ producto.getPrecioCosto() }} </td>
-                    <td> <a href="" class="btn btn-primary"> Editar </a> 
-                        <a href="" class="btn btn-danger"> Eliminar </a>
+                    <td>{{ producto.getPrecioCosto() }} </td> 
+                    <td> 
+                        <a href="{{ path('v_editar_producto',{id: producto.id} ) }}" class="btn btn-primary"> Editar </a> 
+                        <a href="{{ path('eliminar_producto',{id: producto.id} ) }}" class="btn btn-danger"> Eliminar </a>
                     </td>
                 </tr>
             {% endfor %}
