@@ -18,6 +18,7 @@
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Precio Costo</th>
+                <th>Precio Venta</th>
                 <th>Acciones</th>
             </tr>
        
@@ -27,6 +28,7 @@
                     <td>{{ producto.id  }} </td>
                     <td>{{ producto.nombre }} </td> 
                     <td>{{ producto.getPrecioCosto() }} </td> 
+                    <td>{{ producto.getPrecioVenta() }} </td>
                     <td> 
                         <a href="{{ path('v_editar_producto',{id: producto.id} ) }}" class="btn btn-primary"> Editar </a> 
                         <a href="{{ path('eliminar_producto',{id: producto.id} ) }}" class="btn btn-danger"> Eliminar </a>

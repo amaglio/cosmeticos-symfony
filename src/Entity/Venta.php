@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +37,16 @@ class Venta
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $email;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductoVenta", mappedBy="venta_id")
+     */
+    private $cantidad;
+
+    public function __construct()
+    {
+        $this->cantidad = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -85,6 +97,37 @@ class Venta
     public function setEmail(?string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductoVenta[]
+     */
+    public function getCantidad(): Collection
+    {
+        return $this->cantidad;
+    }
+
+    public function addCantidad(ProductoVenta $cantidad): self
+    {
+        if (!$this->cantidad->contains($cantidad)) {
+            $this->cantidad[] = $cantidad;
+            $cantidad->setVentaId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCantidad(ProductoVenta $cantidad): self
+    {
+        if ($this->cantidad->contains($cantidad)) {
+            $this->cantidad->removeElement($cantidad);
+            // set the owning side to null (unless already changed)
+            if ($cantidad->getVentaId() === $this) {
+                $cantidad->setVentaId(null);
+            }
+        }
 
         return $this;
     }
