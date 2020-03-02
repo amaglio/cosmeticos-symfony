@@ -124,7 +124,7 @@ class ProductoControlllerController extends AbstractController
         }
     }
 
-/**
+    /**
      * @Route("/productos/eliminar/{id}", name="eliminar_producto")
      */
     public function eliminar_producto( Request $request, $id )
@@ -158,6 +158,18 @@ class ProductoControlllerController extends AbstractController
 
         return $this->json($productos);
       
+    }   
+
+     /**
+     * @Route("/vue", name="vue_prueba")
+     * Productos habilitados
+     */
+    public function vue()
+    {    
+ 
+        return $this->render('producto_controlller/vue.html.twig', [
+            'controller_name' => 'Productos' 
+        ]); 
     }   
 
 

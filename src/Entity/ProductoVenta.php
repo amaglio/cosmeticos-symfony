@@ -18,12 +18,12 @@ class ProductoVenta
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Producto")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false) 
      */
     private $producto_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Venta", inversedBy="cantidad")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Venta" )
      * @ORM\JoinColumn(nullable=false)
      */
     private $venta_id;

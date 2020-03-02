@@ -15,7 +15,7 @@
         <table class="table table-stripped">
             
             <tr>
-                <th>ID</th>
+                <th>ID</th> 
                 <th>Nombre</th>
                 <th>Precio Costo</th>
                 <th>Precio Venta</th>
@@ -26,7 +26,7 @@
             {% for producto in productos %}
                 <tr>
                     <td>{{ producto.id  }} </td>
-                    <td>{{ producto.nombre }} </td> 
+                    <td>{{ producto.getNombre() }} </td> 
                     <td>{{ producto.getPrecioCosto() }} </td> 
                     <td>{{ producto.getPrecioVenta() }} </td>
                     <td> 
@@ -39,6 +39,7 @@
         </table>
          
     {% endif %}
+
 
 </div> 
  
