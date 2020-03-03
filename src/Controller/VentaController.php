@@ -23,6 +23,7 @@ class VentaController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Venta::class);
 
         $ventas = $repository->findAll(); 
+        
 
         return $this->render('venta/index.html.twig', [
             'controller_name' => 'VentaController',
@@ -56,7 +57,8 @@ class VentaController extends AbstractController
             return $this->redirectToRoute('ventas');
         }
         else
-        {
+        {   
+
             return $this->render('producto_controlller/crear.html.twig', array(
                 'form' => $form->createView(),
             ));
@@ -104,15 +106,24 @@ class VentaController extends AbstractController
 
             $repository = $this->getDoctrine()->getRepository(Venta::class);
             $venta = $repository->findOneBy(['id' => $id]);
-            
+            echo $venta->getCantidad()->count();
+
+            //var_dump($venta->getCantidad()->getTypeClass());
             $form = $this->createForm(PostTypeVenta::class, $venta);
             
+             
             return $this->render('venta/editar.html.twig', array(
                 'id' => $id,
                 'form' => $form->createView(),
                 'form_producto_venta' => $formProductoVenta->createView()
-            ));        
+            ));    
         }
+
+        return new Response('<html>
+            <body>
+                <h1>Hello Symfony 4 World</h1>
+            </body>
+        </html>');
     }
 
     /**
