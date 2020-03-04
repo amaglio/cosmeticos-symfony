@@ -18,6 +18,7 @@
                 <th>ID</th>
                 <th>Fecha</th>
                 <th>Nombre</th> 
+                <th>Productos</th>
                 <th>Email</th>
                 <th>Telefono</th>
                 <th>Acciones</th>
@@ -29,6 +30,15 @@
                     <td>{{ venta.id  }} </td>
                     <td>{{ venta.getFecha()|date('Y-m-d') }} </td> 
                     <td>{{ venta.getNombre() }} </td>  
+                    <td>
+                        {% for hist in venta.getCantidad() %}
+                            <ul>
+                                <li>{{ hist.getProductoId().getNombre() }}: {{ hist.getCantidad() }}</li> 
+                            </ul>
+                        {% endfor %}
+
+                       
+                    </td>
                     <td>{{ venta.getEmail() }} </td>
                     <td>{{ venta.getTelefono() }} </td>
                     <td> 

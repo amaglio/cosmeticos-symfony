@@ -106,7 +106,13 @@ class VentaController extends AbstractController
 
             $repository = $this->getDoctrine()->getRepository(Venta::class);
             $venta = $repository->findOneBy(['id' => $id]);
-            echo $venta->getCantidad()->count();
+            $productosVenta = $venta->getCantidad()->toArray() ;
+
+            /*
+            foreach ($productosVenta as $key => $parameter) {
+                echo $parameter->getProductoId()->getNombre()."<br>";
+            }*/
+ 
 
             //var_dump($venta->getCantidad()->getTypeClass());
             $form = $this->createForm(PostTypeVenta::class, $venta);
@@ -115,8 +121,9 @@ class VentaController extends AbstractController
             return $this->render('venta/editar.html.twig', array(
                 'id' => $id,
                 'form' => $form->createView(),
+                'productos' => $productosVenta,
                 'form_producto_venta' => $formProductoVenta->createView()
-            ));    
+            ));     
         }
 
         return new Response('<html>
@@ -210,6 +217,30 @@ class VentaController extends AbstractController
             </html>');
         return $response;
             
+    }
+
+    /**
+     * @Route("/ventas/eliminar/producto/{id_venta}/{id_producto}", name="v_eliminar_producto_venta")
+     */
+    public function v_eliminar_producto_venta( Request $request, $id_venta, $id_producto )
+    {   
+        //echo $id_venta.",".$id_producto."<br><br>";
+        $repository = $this->getDoctrine()->getRepository(ProductoVenta::class);
+        $producto = $repository->findOneBy([
+            'venta_id' => $id_venta,
+            'producto_id' => $id_producto
+        ]);
+
+        $id_producto_venta = $producto->getId();
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $venta = $entityManager->getRepository(ProductoVenta::class)->find($id_producto_venta);
+      
+
+        $entityManager->remove($venta);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('v_editar_venta', array('id' => $id_venta));
     }
 }
 

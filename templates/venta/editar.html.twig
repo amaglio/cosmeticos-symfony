@@ -1,16 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductoControlllerController!{% endblock %}
+{% block title %}Venta {% endblock %}
 
 {% block body %}
 
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-4">
     {{ form_start(form, {attr: {class: 'my-form-class'} }) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                    <tr>
+                        <td>{{  producto.getProductoId().getId()  }}</td>
+                        <td>{{ producto.getProductoId().getnombre()  }}</td>
+                        <td>
+                            <a href="{{ path('v_eliminar_producto_venta',{id_producto: producto.getProductoId().getId(), id_venta: id } ) }}" class="btn btn-danger"> Eliminar </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+       
+    </div>
+    <div class="col-lg-4">
         {{ form_start(form_producto_venta, {attr: {class: 'my-form-class'} }) }}
         {{ form_widget(form_producto_venta) }}
         {{ form_end(form_producto_venta) }}
