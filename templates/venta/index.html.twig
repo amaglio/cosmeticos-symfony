@@ -6,7 +6,8 @@
 
 <div class="example-wrapper" id="productos">
  
- 
+        <h2>Ventas</h2>
+
 
     <a href="{{ path('v_crear_venta') }}" class="btn btn-info btn-s"> Crear + </a> 
 
@@ -31,12 +32,21 @@
                     <td>{{ venta.getFecha()|date('Y-m-d') }} </td> 
                     <td>{{ venta.getNombre() }} </td>  
                     <td>
-                        {% for hist in venta.getCantidad() %}
-                            <ul>
-                                <li>{{ hist.getProductoId().getNombre() }}: {{ hist.getCantidad() }}</li> 
-                            </ul>
+                        <table class="table table-stripped">
+                            
+                            <tr>  
+                                <th> </th>
+                                <th>Cant</th>
+                                <th>Ganan</th> 
+                            </tr>
+                        {% for prod in venta.getCantidad() %}
+                            <tr>  
+                                <td>{{ prod.getProductoId().getNombre() }}</td>
+                                <td>{{ prod.getCantidad() }}</td> 
+                                <td>{{ prod.getCantidad() }}</td>
+                            </tr>
                         {% endfor %}
-
+                        </table>
                        
                     </td>
                     <td>{{ venta.getEmail() }} </td>

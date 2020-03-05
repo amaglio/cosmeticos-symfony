@@ -22,8 +22,8 @@
             <tbody>
                 {% for producto in productos %}
                     <tr>
-                        <td>{{  producto.getProductoId().getId()  }}</td>
                         <td>{{ producto.getProductoId().getnombre()  }}</td>
+                        <td>{{  producto.getCantidad()  }}</td>
                         <td>
                             <a href="{{ path('v_eliminar_producto_venta',{id_producto: producto.getProductoId().getId(), id_venta: id } ) }}" class="btn btn-danger"> Eliminar </a>
                         </td>

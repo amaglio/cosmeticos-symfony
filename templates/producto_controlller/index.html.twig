@@ -19,6 +19,7 @@
                 <th>Nombre</th>
                 <th>Precio Costo</th>
                 <th>Precio Venta</th>
+                <th>Stock</th>
                 <th>Ganancia</th>
                 <th>Acciones</th>
             </tr>
@@ -30,7 +31,8 @@
                     <td>{{ producto.getNombre() }} </td> 
                     <td>{{ producto.getPrecioCosto() }} </td> 
                     <td>{{ producto.getPrecioVenta() }} </td>
-                    <td>{{ ( producto.getPrecioVenta() - producto.getPrecioCosto() ) * 100 / producto.getPrecioCosto() }}%</td>
+                    <td>{{ producto.getStock() }} </td>
+                    <td>{{ (( producto.getPrecioVenta() - producto.getPrecioCosto() ) * 100 / producto.getPrecioCosto()) |round(2, 'floor') }}%</td>
                     <td> 
                         <a href="{{ path('v_editar_producto',{id: producto.id} ) }}" class="btn btn-primary"> Editar </a> 
                         <a href="{{ path('eliminar_producto',{id: producto.id} ) }}" class="btn btn-danger"> Eliminar </a>

@@ -108,6 +108,9 @@ class VentaController extends AbstractController
             $venta = $repository->findOneBy(['id' => $id]);
             $productosVenta = $venta->getCantidad()->toArray() ;
 
+
+            $repository = $this->getDoctrine()->getRepository(Producto::class);
+            $listadoProductos = $repository->findAll(); 
             /*
             foreach ($productosVenta as $key => $parameter) {
                 echo $parameter->getProductoId()->getNombre()."<br>";
@@ -122,6 +125,7 @@ class VentaController extends AbstractController
                 'id' => $id,
                 'form' => $form->createView(),
                 'productos' => $productosVenta,
+                'listadoProductos' => $listadoProductos,
                 'form_producto_venta' => $formProductoVenta->createView()
             ));     
         }
@@ -236,7 +240,6 @@ class VentaController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $venta = $entityManager->getRepository(ProductoVenta::class)->find($id_producto_venta);
       
-
         $entityManager->remove($venta);
         $entityManager->flush();
 
