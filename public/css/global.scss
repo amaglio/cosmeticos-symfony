@@ -1,0 +1,104 @@
+$breakpoints: (
+  xs: 576px,
+  sm: 768px,
+  md: 992px,
+  lg: 1200px
+);
+
+// MENU
+
+a.nav-link {
+  color: rgba(0, 0, 0, 0.9);
+  padding: 20px 40px !important;
+  font-size: larger;
+}
+
+.navbar-brand {
+  letter-spacing: 10px;
+  font-size: 37px;
+  text-shadow: aqua;
+  border-right: 3px solid #d7d7d763;
+  padding-right: 23px;
+}
+
+.jumbotron { 
+  padding: 20px;
+  font-size: 26px;
+  text-align: center;
+}
+
+.jumbotron-light{
+  background-color: #b9b9b914;
+  margin: 20px 0px;
+}
+
+.table-responsive {
+ 
+  font-size: 15px;
+
+}
+ 
+#productos th {
+  padding: 5px;
+}
+
+#productos td {
+  padding: 5px;
+}
+
+.tabla-productos{
+  background-color: #eeeded !important;
+}
+.btn{
+  margin: 2px;
+}
+
+.btn-success {
+
+  color: #28a745; 
+  border-color: #28a745;
+  background-color: #28a74500;
+}
+
+.btn-danger {
+  color: #bd2130;
+  background-color: #28a74500; 
+  padding-left:13px ;
+  padding-right:13px ;
+}
+
+
+.btn-info  {
+  color:#117a8b;
+  background-color: #28a74500; 
+border-color: #117a8b; 
+}
+
+.item-user{
+  padding: 5px 0px;
+}
+
+
+@mixin mq($mq-breakpoint, $mq-breakpoints: $breakpoints) {
+  @if map-has-key($mq-breakpoints, $mq-breakpoint) {
+    $mq-breakpoint: map-get($mq-breakpoints, $mq-breakpoint);
+
+    @media screen and (max-width: #{$mq-breakpoint}) {
+      @content;
+    }
+  } @else {
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}
+
+@include mq(lg) {
+}
+
+@include mq(md) {
+}
+
+@include mq(sm) {
+}
+
+@include mq(xs) {
+}
