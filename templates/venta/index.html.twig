@@ -6,6 +6,14 @@
  
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 
+<style>
+    .jumbotron-light {
+
+        background-color: #b9b9b900;
+        margin: 20px 0px;
+
+    }
+</style>
 <div class="example-wrapper" >
  
     
@@ -53,20 +61,18 @@
                                             
                                             <tr>  
                                                 <th class="text-left border-0 col-md-2"  >Productos</th>
-                                                <th class="border-0 text-center col-md-1"><i class="fas fa-coins"></i> </th>
-                                                <th class="border-0 text-center col-md-1"><i class="fas fa-dollar-sign"></i></th>
-                                                <th class="border-0 text-center col-md-1"><i class="fas fa-cart-plus"></i></th>
-                                                <th class="border-0 text-center col-md-1"><i class="fas fa-hand-holding-usd"></i></th>
-                                                <th class="border-0 text-center col-md-1"><i class="fas fa-percentage"></i></th>
+                                                <th class="border-0 text-center col-md-1"><i class="fas fa-coins" data-toggle="tooltip" data-placement="top" title="Precio costo"></i> </th>
+                                                <th class="border-0 text-center col-md-1"><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Precio venta"></i></th>
+                                                <th class="border-0 text-center col-md-1"><i class="fas fa-hand-holding-usd" data-toggle="tooltip" data-placement="top" title="Ganancia $"></i></th>
+                                                <th class="border-0 text-center col-md-1"><i class="fas fa-percentage" data-toggle="tooltip" data-placement="top" title="Ganancia %"></i></th>
                                             </tr>
                                         {% for prod in venta.getCantidad() %}
                                             <tr class="text-left">  
-                                                <td >{{ prod.getProductoId().getNombre() }}</td>
-                                                <td class="text-center">{{ prod.getCantidad() }}</td> 
-                                                <td class="text-center">{{ prod.getCantidad() }}</td>
-                                                <td class="text-center">{{ prod.getCantidad() }}</td>
-                                                <td class="text-center">{{ prod.getCantidad() }}</td>
-                                                <td class="text-center">{{ prod.getCantidad() }}</td>
+                                                <td class="text-left">{{ prod.getProductoId().getNombre() }}</td>
+                                                <td class="text-center">{{ prod.getProductoId().getPrecioCosto() }}</td> 
+                                                <td class="text-center">{{ prod.getProductoId().getPrecioVenta() }}</td>
+                                                <td class="text-center">{{ prod.getProductoId().getPrecioVenta() - prod.getProductoId().getPrecioCosto()   }}</td>
+                                                <td class="text-center">{{ (( prod.getProductoId().getPrecioVenta() - prod.getProductoId().getPrecioCosto() ) * 100 / prod.getProductoId().getPrecioCosto()) |round(2, 'floor') }}%</td>
                                             </tr>
                                         {% endfor %}
                                         </table>

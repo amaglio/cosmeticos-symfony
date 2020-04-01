@@ -3,23 +3,35 @@
 {% block title %} Productos {% endblock %}
 
 {% block body %}
- 
-<div class="example-wrapper" id="div_productos">
+
+<style>
+    .dataTables_filter{
+        width:auto;
+        float:right;
+    }
+
+    .dataTables_length{
+        width:auto;
+        float:left;
+    }
+</style>
+
+<div class="example-wrapper" id="div_productos" >
  
     <a href="{{ path('v_crear_producto') }}" class="btn btn-info btn-s"> Crear + </a> 
 
     {% if productos %}
-    <div class="table-responsive">
+    <div class="table-responsive" style="padding-top:40px">
         <table class="table table-stripped " id="productos">
             <thead>    
                 <tr>
                     <th>ID</th> 
                     <th>Nombre</th>
-                    <th><i class="fas fa-coins"></i></th>
-                    <th><i class="fas fa-dollar-sign"></th>
-                    <th><i class="fas fa-cart-plus"></i></th>
-                    <th><i class="fas fa-hand-holding-usd"></i></th>
-                    <th><i class="fas fa-percentage"></i></th>
+                    <th><i class="fas fa-coins" data-toggle="tooltip" data-placement="top" title="Precio costo"></i></th>
+                    <th><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Precio venta"></th>
+                    <th><i class="fas fa-cart-plus" data-toggle="tooltip" data-placement="top" title="Stock del producto"></i></th>
+                    <th><i class="fas fa-hand-holding-usd" data-toggle="tooltip" data-placement="top" title="Ganancia en $"></i></th>
+                    <th><i class="fas fa-percentage" data-toggle="tooltip" data-placement="top" title="Ganancia %"></i></th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -27,15 +39,15 @@
             {% for producto in productos %}
                 <tr>
                     <td>{{ producto.id  }} </td>
-                    <td>{{ producto.getNombre() }} </td> 
-                    <td>{{ producto.getPrecioCosto() }} </td> 
-                    <td>{{ producto.getPrecioVenta() }} </td>
+                    <td class="text-left" >{{ producto.getNombre() }} </td> 
+                    <td><span class="unidad">$</span> {{ producto.getPrecioCosto() }} </td> 
+                    <td><span class="unidad">$</span> {{ producto.getPrecioVenta() }} </td>
                     <td>{{ producto.getStock() }} </td>
-                    <td>{{  producto.getPrecioVenta() - producto.getPrecioCosto()   }}</td>
+                    <td><span class="unidad">$</span> {{  producto.getPrecioVenta() - producto.getPrecioCosto()   }}</td>
                     <td>{{ (( producto.getPrecioVenta() - producto.getPrecioCosto() ) * 100 / producto.getPrecioCosto()) |round(2, 'floor') }}%</td>
                     <td>  
-                        <a href="{{ path('v_editar_producto',{id: producto.id} ) }}" class="btn btn-success">  <i class="fas fa-edit"></i> </a> 
-                        <a href="{{ path('eliminar_producto',{id: producto.id} ) }}" class="btn btn-danger"> <i class="fas fa-trash"></i>  </a>
+                        <a href="{{ path('v_editar_producto',{id: producto.id} ) }}" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Editar el producto">  <i class="fas fa-edit"></i> </a> 
+                        <a href="{{ path('eliminar_producto',{id: producto.id} ) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar el producto"> <i class="fas fa-trash"></i>  </a>
 
                     </td>
                 </tr>

@@ -6,7 +6,7 @@ a.nav-link {
 
 .navbar-brand {
   letter-spacing: 10px;
-  font-size: 37px;
+  font-size: 34px;
   text-shadow: aqua;
   border-right: 3px solid #d7d7d763;
   padding-right: 23px;
@@ -31,12 +31,20 @@ a.nav-link {
   padding: 5px;
 }
 
+#productos td, th {
+  text-align: center;
+}
+
+#productos > tr > td {
+  background-color: red !important;
+}
+
 #productos td {
   padding: 5px;
 }
 
 .tabla-productos {
-  background-color: #eeeded !important;
+  background-color: #f000 !important;
 }
 
 .btn {
@@ -71,9 +79,9 @@ a.nav-link {
 }
 
 .active {
-  background-color: #eeeded;
   font-weight: 500;
-  border-top: 2px solid #b9b9b9;
+  border-top: 2px solid #117a8b;
+  color: #138496 !important;
 }
 
 table.dataTable {
@@ -87,5 +95,10 @@ table.dataTable thead td {
 
 table.dataTable.no-footer {
   border-bottom: 1px solid #1111114f !important;
+}
+
+.unidad {
+  font-size: 13px;
+  color: #00000094;
 }
 /*# sourceMappingURL=global.css.map */

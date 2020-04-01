@@ -32,6 +32,9 @@
                             <a class="nav-link {{ (app.request.pathinfo == '/ventas') ? 'active' : '' }} " href="{{ path('ventas') }}">Ventas</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {{ (app.request.pathinfo == '/reportes') ? 'active' : '' }} " href="{{ path('ventas') }}">Reportes</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {{ (app.request.pathinfo == '/salir') ? 'active' : '' }} " href="#">Salir</a>
                         </li>
                     </ul>
