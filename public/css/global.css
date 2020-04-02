@@ -101,4 +101,11 @@ table.dataTable.no-footer {
   font-size: 13px;
   color: #00000094;
 }
+
+.my-form-class label {
+  padding: 10px;
+  font-size: 15px;
+  width: 100%;
+  font-weight: 550;
+}
 /*# sourceMappingURL=global.css.map */

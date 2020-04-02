@@ -5,6 +5,8 @@ $breakpoints: (
   lg: 1200px
 );
 
+$color-verde: #117a8b;
+
 // MENU
 
 a.nav-link {
@@ -35,7 +37,7 @@ a.nav-link {
 .table-responsive {
   font-size: 15px;
 }
- 
+  
 
 #productos th {
   padding: 5px;
@@ -108,6 +110,15 @@ table.dataTable.no-footer {
 .unidad{
   font-size: 13px;
   color: #00000094; 
+}
+
+
+.my-form-class label{
+  padding: 10px;
+  font-size: 15px;
+  //color: $color-verde !important;
+  width: 100% ;
+  font-weight: 550;
 }
 
 @mixin mq($mq-breakpoint, $mq-breakpoints: $breakpoints) {
