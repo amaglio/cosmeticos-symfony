@@ -12,6 +12,7 @@ use App\PostTypeProductoVenta\PostTypeProductoVenta;
 use Symfony\Component\HttpFoundation\Request; 
 use Symfony\Component\HttpFoundation\Response;
 
+ 
 
 class VentaController extends AbstractController
 {
@@ -112,7 +113,7 @@ class VentaController extends AbstractController
                                                         )
                                                     );
                                                     
-            $formProductoVenta->get('producto_id')->setData(3);
+            $formProductoVenta->get('venta_id')->setData($id);
 
             // Obtengo el formulario de venta para editar
             $form = $this->createForm(PostTypeVenta::class, $venta);
@@ -250,6 +251,6 @@ class VentaController extends AbstractController
 
         return $this->redirectToRoute('v_editar_venta', array('id' => $id_venta));
     }
+
+
 }
-
-

@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Controller;
-
  
 use App\Entity\Producto; 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route; 
 use App\FormCrear\PostType; 
 use Symfony\Component\HttpFoundation\Request;  
- 
+use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 
 class ProductoControlllerController extends AbstractController  
@@ -21,10 +21,12 @@ class ProductoControlllerController extends AbstractController
     {   
         $repository = $this->getDoctrine()->getRepository(Producto::class);
 
-        $productos = $repository->findBy(
-            ['enabled' => 1 ] 
-        ); 
- 
+        // $productos = $repository->findBy(
+        //     ['enabled' => 1 ] 
+        // ); 
+        
+        $productos = $repository->findAllOrderedByName();
+        
         return $this->render('producto_controlller/index.html.twig', [
             'controller_name' => 'Productos',
             'productos' => $productos
@@ -160,17 +162,56 @@ class ProductoControlllerController extends AbstractController
       
     }   
 
-     /**
-     * @Route("/vue", name="vue_prueba")
-     * Productos habilitados
+    
+    /**
+     * Creates a new ActionItem entity.
+     *
+     * @Route("/search", name="ajax_search")
+     * @Method("GET")
      */
-    public function vue()
-    {    
- 
-        return $this->render('producto_controlller/vue.html.twig', [
-            'controller_name' => 'Productos' 
-        ]); 
-    }   
+    public function searchAction(Request $request)
+    {
+        // $em = $this->getDoctrine()->getManager();
+
+        // $requestString = $request->get('q');
+
+        // $entities =  $em->getRepository('AppBundle:Entity')->findEntitiesByString($requestString);
+
+        // if(!$entities) {
+        //     $result['entities']['error'] = "keine Einträge gefunden";
+        // } else {
+        //     $result['entities'] = $this->getRealEntities($entities);
+        // }
+
+        // return new Response(json_encode($result));
+        
+        $requestString = $request->get('q');
+        $repository = $this->getDoctrine()->getRepository(Producto::class);
+        // $productos = $repository->findProductoByString($requestString); 
+        // var_dump($productos);
+        $productos = $repository->findBy(
+            ['enabled' => 1 ] 
+        ); 
+
+        if(!$productos) {
+            $result['entities']['error'] = "keine Einträge gefunden";
+        } else {
+            $result['entities'] =  $productos;
+        }
+
+
+        return new Response(json_encode($result));
+    }
+
+    public function getRealEntities($entities){
+
+        // foreach ($entities as $entity){
+        //     $realEntities[$entity->getId()] = $entity->getFoo();
+        // }
+
+        // return $realEntities;
+    }
+
 
 
 }   

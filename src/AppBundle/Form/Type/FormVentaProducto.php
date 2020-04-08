@@ -12,11 +12,8 @@ class PostTypeProductoVenta extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
-            ->add('venta_id', TextType::class,   [
-                'data' => '1',
-            ] )
+            ->add('venta_id', TextType::class, array('attr' => array('readonly' => true)) )
             ->add('producto_id', TextType::class) 
             ->add('cantidad', TextType::class)
             ->add('precio_costo', TextType::class)
