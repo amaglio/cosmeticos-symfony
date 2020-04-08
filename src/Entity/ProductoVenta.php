@@ -33,6 +33,16 @@ class ProductoVenta
      */
     private $cantidad;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $precio_costo;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $precio_venta;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +80,30 @@ class ProductoVenta
     public function setCantidad(int $cantidad): self
     {
         $this->cantidad = $cantidad;
+
+        return $this;
+    }
+
+    public function getPrecioCosto(): ?float
+    {
+        return $this->precio_costo;
+    }
+
+    public function setPrecioCosto(float $precio_costo): self
+    {
+        $this->precio_costo = $precio_costo;
+
+        return $this;
+    }
+
+    public function getPrecioVenta(): ?float
+    {
+        return $this->precio_venta;
+    }
+
+    public function setPrecioVenta(float $precio_venta): self
+    {
+        $this->precio_venta = $precio_venta;
 
         return $this;
     }

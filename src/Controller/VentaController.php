@@ -77,50 +77,51 @@ class VentaController extends AbstractController
         $venta = new Venta();
         $form = $this->createForm(PostTypeVenta::class, $venta);
         $form->handleRequest($request);
-
-        $ProductoVenta = new ProductoVenta();
-        $formProductoVenta = $this->createForm(PostTypeProductoVenta::class, $ProductoVenta, array(
-            'action' => $this->generateUrl('agregar_producto_venta') 
-        ));
-
+    
         if ($form->isSubmitted() && $form->isValid()) 
         {   
-            $entityManager = $this->getDoctrine()->getManager();
-            
-            $task = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();      
+            $form_data = $form->getData();
  
             $venta = $entityManager->getRepository(Venta::class)->find($id);
 
-            $venta->setNombre($task->getNombre());
-            $venta->setFecha($task->getFecha()); 
-            $venta->setTelefono($task->getTelefono());
-            $venta->setEmail($task->getEmail()); 
+            $venta->setNombre($form_data->getNombre());
+            $venta->setFecha($form_data->getFecha()); 
+            $venta->setTelefono($form_data->getTelefono());
+            $venta->setEmail($form_data->getEmail()); 
 
             $entityManager->flush();
 
             return $this->redirectToRoute('ventas');
- 
         }
         else
-        {
 
+        {   
+            
+            // Obtengo la venta
             $repository = $this->getDoctrine()->getRepository(Venta::class);
             $venta = $repository->findOneBy(['id' => $id]);
             $productosVenta = $venta->getCantidad()->toArray() ;
 
+            // Creo formulario de agregar productos a la venta
+            $ProductoVenta = new ProductoVenta();
+            $formProductoVenta = $this->createForm(     PostTypeProductoVenta::class, 
+                                                        $ProductoVenta, 
+                                                        array(
+                                                            'action' => $this->generateUrl('agregar_producto_venta') 
+                                                        )
+                                                    );
+                                                    
+            $formProductoVenta->get('producto_id')->setData(3);
 
+            // Obtengo el formulario de venta para editar
+            $form = $this->createForm(PostTypeVenta::class, $venta);
+
+            // Obtengo los productos
             $repository = $this->getDoctrine()->getRepository(Producto::class);
             $listadoProductos = $repository->findAll(); 
-            /*
-            foreach ($productosVenta as $key => $parameter) {
-                echo $parameter->getProductoId()->getNombre()."<br>";
-            }*/
- 
-
-            //var_dump($venta->getCantidad()->getTypeClass());
-            $form = $this->createForm(PostTypeVenta::class, $venta);
-            
              
+            
             return $this->render('venta/editar.html.twig', array(
                 'id' => $id,
                 'form' => $form->createView(),
@@ -130,11 +131,11 @@ class VentaController extends AbstractController
             ));     
         }
 
-        return new Response('<html>
-            <body>
-                <h1>Hello Symfony 4 World</h1>
-            </body>
-        </html>');
+        // return new Response('<html>
+        //     <body>
+        //         <h1>Hello Symfony 4 World</h1>
+        //     </body>
+        // </html>');
     }
 
     /**
@@ -165,6 +166,8 @@ class VentaController extends AbstractController
         $venta_id = $request->request->get('post_type_producto_venta')["venta_id"];
         $producto_id = $request->request->get('post_type_producto_venta')["producto_id"];
         $cantidad = $request->request->get('post_type_producto_venta')["cantidad"];
+        $precio_costo = $request->request->get('post_type_producto_venta')["precio_costo"];
+        $precio_venta = $request->request->get('post_type_producto_venta')["precio_venta"];
 
         $repository = $this->getDoctrine()->getRepository(Producto::class);
         $producto = $repository->findOneBy(['id' => $producto_id]);
@@ -178,6 +181,8 @@ class VentaController extends AbstractController
         $productoVenta->setProductoId($producto);
         $productoVenta->setVentaId($venta);
         $productoVenta->setCantidad($cantidad);
+        $productoVenta->setPrecioCosto($precio_costo);
+        $productoVenta->setPrecioVenta($precio_venta);
         $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($productoVenta);
             $entityManager->flush();

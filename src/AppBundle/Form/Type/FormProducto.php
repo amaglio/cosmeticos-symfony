@@ -25,7 +25,7 @@ class PostType extends AbstractType
             ])
             ->add('descripcion', TextareaType::class, [ 
                 'attr' => ['class' => 'col-md-8 form-control']
-            ])
+            ]) 
             ->add('precio_costo', TextType::class,[ 
                 'attr' => ['class' => 'col-md-8 form-control']
             ])
@@ -37,7 +37,7 @@ class PostType extends AbstractType
             ]) 
             ->add('submit', SubmitType::class, [
                 'label' => 'Guardar',
-                'attr' => ['class' => 'btn btn-info text-center'],
+                'attr' => ['class' => 'btn btn-info text-center form-control'],
             ]); 
     }
 

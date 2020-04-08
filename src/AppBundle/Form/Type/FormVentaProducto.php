@@ -1,7 +1,6 @@
 <?php   
 namespace App\PostTypeProductoVenta;
 
- 
 use App\Entity\ProductoVenta;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,9 +14,13 @@ class PostTypeProductoVenta extends AbstractType
     {
 
         $builder
-            ->add('venta_id', TextType::class)
+            ->add('venta_id', TextType::class,   [
+                'data' => '1',
+            ] )
             ->add('producto_id', TextType::class) 
-            ->add('cantidad', TextType::class) 
+            ->add('cantidad', TextType::class)
+            ->add('precio_costo', TextType::class)
+            ->add('precio_venta', TextType::class) 
             ->add('submit', SubmitType::class, [
                 'label' => 'Agregar',
                 'attr' => ['class' => 'btn btn-primary'],
@@ -29,6 +32,10 @@ class PostTypeProductoVenta extends AbstractType
         $resolver->setDefaults([
             'data_class' => ProductoVenta::class,
         ]);
+
+        $resolver->setDefaults(array(
+            'producto_id' => '1',
+        ));
     }
 }
 
