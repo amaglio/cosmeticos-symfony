@@ -17,23 +17,23 @@ class PostType extends AbstractType
         $builder
             ->add('nombre', TextType::class, [
                 'label' => 'Nombre y apellido',
-                'attr' => ['class' => 'col-md-8 form-control'],
+                'attr' => ['class' => 'col-md-12 form-control'],
             ])
             ->add('codigo', TextType::class, [
                 'label' => 'Codigo',
-                'attr' => ['class' => 'col-md-8 form-control'],
+                'attr' => ['class' => 'col-md-12 form-control'],
             ])
             ->add('descripcion', TextareaType::class, [ 
-                'attr' => ['class' => 'col-md-8 form-control']
+                'attr' => ['class' => 'col-md-12 form-control']
             ]) 
             ->add('precio_costo', TextType::class,[ 
-                'attr' => ['class' => 'col-md-8 form-control']
+                'attr' => ['class' => 'col-md-12 form-control']
             ])
             ->add('precio_venta', TextType::class, [ 
-                'attr' => ['class' => 'col-md-8 form-control']
+                'attr' => ['class' => 'col-md-12 form-control']
             ])
             ->add('stock', TextType::class, [ 
-                'attr' => ['class' => 'col-md-8 form-control']
+                'attr' => ['class' => 'col-md-12 form-control']
             ]) 
             ->add('submit', SubmitType::class, [
                 'label' => 'Guardar',

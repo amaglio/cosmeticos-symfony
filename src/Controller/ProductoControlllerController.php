@@ -21,11 +21,11 @@ class ProductoControlllerController extends AbstractController
     {   
         $repository = $this->getDoctrine()->getRepository(Producto::class);
 
-        // $productos = $repository->findBy(
-        //     ['enabled' => 1 ] 
-        // ); 
+        $productos = $repository->findBy(
+            ['enabled' => 1 ] 
+        ); 
         
-        $productos = $repository->findAllOrderedByName();
+        // $productos = $repository->findByName('Pin');
         
         return $this->render('producto_controlller/index.html.twig', [
             'controller_name' => 'Productos',
@@ -171,34 +171,29 @@ class ProductoControlllerController extends AbstractController
      */
     public function searchAction(Request $request)
     {
-        // $em = $this->getDoctrine()->getManager();
-
-        // $requestString = $request->get('q');
-
-        // $entities =  $em->getRepository('AppBundle:Entity')->findEntitiesByString($requestString);
-
-        // if(!$entities) {
-        //     $result['entities']['error'] = "keine Einträge gefunden";
-        // } else {
-        //     $result['entities'] = $this->getRealEntities($entities);
-        // }
-
-        // return new Response(json_encode($result));
-        
-        $requestString = $request->get('q');
+        $requestString = $request->get('term');
         $repository = $this->getDoctrine()->getRepository(Producto::class);
-        // $productos = $repository->findProductoByString($requestString); 
-        // var_dump($productos);
-        $productos = $repository->findBy(
-            ['enabled' => 1 ] 
-        ); 
+        $productos = $repository->findByName($requestString);
 
         if(!$productos) {
             $result['entities']['error'] = "keine Einträge gefunden";
-        } else {
-            $result['entities'] =  $productos;
-        }
+        } else 
+        { 
 
+            foreach ($productos as $entity){
+                $producto['nombre'] = $entity->getNombre();
+                $producto['precio_costo'] = $entity->getPrecioCosto();
+                $producto['precio_venta'] = $entity->getPrecioVenta(); 
+                $producto['codigo'] = $entity->getCodigo();
+                $result[]= array(   "id" => $entity->getId() ,  
+                                    "value" => "(".$entity->getCodigo().") ".$entity->getNombre(),
+                                    "producto" => $producto
+                                ); 
+            }
+            
+        }
+ 
+                 
 
         return new Response(json_encode($result));
     }
@@ -206,10 +201,24 @@ class ProductoControlllerController extends AbstractController
     public function getRealEntities($entities){
 
         // foreach ($entities as $entity){
-        //     $realEntities[$entity->getId()] = $entity->getFoo();
+        //     $producto['nombre'] = $entity->getNombre();
+        //     $producto['precio_costo'] = $entity->getPrecioCosto();
+        //     $producto['precio_venta'] = $entity->getPrecioVenta();
+        //     $informacionProducto[$entity->getId()] = $producto;
+        //     $informacionProducto["value"] = $entity->getNombre();
         // }
+        
+        $informacionProducto[]= array(  "N_ID_PERSONA" => 1 ,  
+                                        "value" => "CC",
+                                        "producto" => "aaaaaa"
+                                    ); 
+        
+        $informacionProducto[]= array(  "N_ID_PERSONA" => 1 ,  
+                                        "value" => "AAAA",
+                                        "producto" => "aaaaaa"
+                                    ); 
 
-        // return $realEntities;
+        return $informacionProducto;
     }
 
 

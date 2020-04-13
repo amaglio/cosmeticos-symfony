@@ -16,14 +16,29 @@ class PostTypeVenta extends AbstractType
     {
 
         $builder
-            ->add('nombre', TextType::class)
-            ->add('fecha', DateType::class)
-            ->add('nombre', TextType::class)
-            ->add('telefono', TextType::class)
-            ->add('email', TextType::class)
+            ->add('nombre', TextType::class,[
+                'label' => 'Nombre y apellido',
+                'attr' => ['class' => 'col-md-12 form-control']
+            ])
+            ->add('fecha', DateType::class,[
+                'label' => 'Fecha',
+                'attr' => ['class' => 'col-md-12  ']
+            ])
+            ->add('nombre', TextType::class,[
+                'label' => 'Nombre y apellido',
+                'attr' => ['class' => 'col-md-12 form-control']
+            ])
+            ->add('telefono', TextType::class,[
+                'label' => 'Telefono',
+                'attr' => ['class' => 'col-md-12 form-control']
+            ])
+            ->add('email', TextType::class,[
+                'label' => 'Email',
+                'attr' => ['class' => 'col-md-12 form-control']
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Guardar',
-                'attr' => ['class' => 'btn btn-primary'],
+                'attr' => ['class' => 'btn btn-info text-center form-control btn-info text-center form-control'],
             ]); 
     }
 

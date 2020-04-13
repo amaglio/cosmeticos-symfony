@@ -4,108 +4,154 @@
 
 {% block body %}
 
-<div class="row">
-    <div class="col-lg-4">
-    {{ form_start(form, {attr: {class: 'my-form-class'} }) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
-    </div>
-    <div class="col-lg-4">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for producto in productos %}
-                    <tr>
-                        <td>{{ producto.getProductoId().getnombre()  }}</td>
-                        <td>{{  producto.getCantidad()  }}</td>
-                        <td>
-                            <a href="{{ path('v_eliminar_producto_venta',{id_producto: producto.getProductoId().getId(), id_venta: id } ) }}" class="btn btn-danger"> Eliminar </a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-       
-    </div>
-    <div class="col-lg-4">
-        <form>
-            <label>Buscar producto</label>
-            <input name="buscar_producto" id="buscar_producto" 
-        </form>
-        {{ form_start(form_producto_venta, {attr: {class: 'my-form-class'} }) }}
-        {{ form_widget(form_producto_venta) }}
-        {{ form_end(form_producto_venta) }}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-        
-        <div class="sidebar-search">
-            <div class="input-group custom-search-form">
-                <input type="text" id="search" class="form-control" placeholder="Suche...">
+<div class="alert alert-info" role="alert">
+    <h5><i class="fas fa-edit" aria-hidden="true"></i> &nbsp;  Editar la venta </h5>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card ">
+            <div class="card-header">
+                 <h5 class="card-title">Editar venta</h5>
             </div>
-            <!-- /input-group -->
-        </div>
-        <ul class="nav" id="side-menu">
-            <li>
-                <a href="#"> Entities<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" id="entitiesNav">
-                </ul>
-            </li>
-        </ul>
+            <div class="card-body">
+               
+               
+                {{ form_start(form, {attr: {class: 'my-form-class'} }) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div> 
     </div>
+    <div class="col-md-8"> 
+        <div class="card">
+            <div class="card-header">
+                 <h5 class="card-title">Productos venta</h5>
+            </div> 
+                <div class="container">
+                    <div class="col-lg-12" id="buscador-productos">
+
+                        <div class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                            <label for="post_type_venta_nombre"><i class="fas fa-search"></i> Buscar producto</label>
+                            </div>
+                            <div>
+                                <input type="text" id="search" name="search" class="form-control" placeholder="Ingrese el nombre o codigo del producto ">
+                            </div>
+                            <!-- /input-group -->
+                        </div>
+                        <ul class="nav" id="side-menu">
+                            <li>
+                                <ul class="nav nav-second-level" id="entitiesNav">
+                                </ul>
+                            </li>
+                        </ul>
+
+                        {{ form_start(form_producto_venta, {attr: {class: 'form-agregar-producto'} }) }}
+                        {{ form_widget(form_producto_venta) }}
+                        {{ form_end(form_producto_venta) }}
+                    </div>
+                    <div class="col-lg-12"> 
+                        <table class="table table-sm table-striped tabla-producto">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Producto</th>
+                                    <th scope="col" class="text-center"><i class="fas fa-hashtag"  data-toggle="tooltip" data-placement="top" title="Cantidad comprada" ></i></th>
+                                    <th scope="col" class="text-center"><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Precio venta" aria-hidden="true"></i></th>
+                                    <th scope="col" class="text-center"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for producto in productos %}
+                                    <tr>
+                                        <td>{{ producto.getProductoId().getnombre()  }}</td>
+                                        <td class="text-center">{{  producto.getCantidad()  }}</td>
+                                        <td class="text-center">{{  producto.getPrecioVenta()  }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ path('v_eliminar_producto_venta',{id_producto: producto.getProductoId().getId(), id_venta: id } ) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar el producto"> <i class="fas fa-trash" aria-hidden="true"></i>  </a>                                </td>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>     
+                <div>
+            </div>     
+        <div>
+    </div>
+     
 </div>
 
 <!-- jQuery is necessary -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/jquery-ui.js"></script> 
 
 <script type="text/javascript">
-    jQuery(document).ready(function() {
-        var searchRequest = null;
-        $("#search").keyup(function() {
-            console.log("keyup");
-            var minlength = 3;
-            var that = this;
-            var value = $(this).val();
-            var entitySelector = $("#entitiesNav").html('');
-            if (value.length >= minlength ) {
-                if (searchRequest != null)
-                    searchRequest.abort();
+ 
 
-                console.log("mayo a 3. Value:"+value);
-                searchRequest = $.ajax({
-                    type: "GET",
-                    url: "{{ path('ajax_search') }}",
-                    data: {
-                        'q' : value
-                    },
-                    dataType: "text",
-                    success: function(msg){
-                        console.log("success"+msg);
-                        //we need to check if the value is the same
-                        if (value==$(that).val()) {
-                            var result = JSON.parse(msg);
-                            console.log(result);
-                            $.each(result, function(key, arr) {
-                                $.each(arr, function(id, value) {
-                                    if (key == 'entities') {
-                                        if (id != 'error') {
-                                            entitySelector.append('<li><a href="/daten/'+id+'">'+value+'</a></li>');
-                                        } else {
-                                            entitySelector.append('<li class="errorLi">'+value+'</li>');
-                                        }
-                                    }
-                                });
-                            });
-                        }
-                     }
-                });
-            }
-        });
+    $(function() {
+         $('#search').val('');
     });
+
+    $('#search').autocomplete({
+          
+          minLength: 3,
+          change: function( event, ui ) {
+            /*
+            $('input[id="post_type_producto_venta_cantidad"]').empty();
+            $('input[id="post_type_producto_venta_cantidad"]').attr('type','hidden');
+            $('#label_cantidad').hide(); */
+          },
+          source:'{{ path('ajax_search') }}',
+          select: function(event, ui)   
+          {     
+                $('#post_type_producto_venta').show();
+                $('#post_type_producto_venta_submit').show();
+                $('input[id="post_type_producto_venta_producto_id"]').val(ui.item.id);  
+                $('input[id="post_type_producto_venta_precio_costo"]').val(ui.item.producto.precio_costo);               
+                $('input[id="post_type_producto_venta_precio_venta"]').val(ui.item.producto.precio_venta);
+                $('input[id="post_type_producto_venta_cantidad"]').attr('type','text');
+                $('<label id="producto-elegido"> ('+ui.item.producto.codigo+') '+ui.item.producto.nombre +' </label>').insertBefore('input[id="post_type_producto_venta_cantidad"]');
+                $('<a href="#" id="cerrar-producto-elegido"><i class="far fa-2x fa-times-circle" style="color:#138496; padding-right:10px"></i></a>').insertBefore("#producto-elegido");
+
+                $( "#cerrar-producto-elegido" ).click(function() {
+                    cerrar_opcion();
+                });
+          },
+          close: function(event, ui) 
+          {
+               $('#search').val('');
+          },
+          response: function(event, ui) {
+
+            if (ui.content.length === 0) 
+            {   
+
+                /* $('input[id="post_type_producto_venta_cantidad"]').empty();
+                $('input[id="post_type_producto_venta_cantidad"]').attr('type','hidden');
+                $('#label_cantidad').hide(); */
+                
+            } 
+            else 
+            {
+                 //$('#sin_resultados_profesor').hide();
+            }
+
+          }
+
+                
+
+    });
+
+    function cerrar_opcion()
+    {
+        alert("aaa");
+    }
+ 
+ 
 </script>
+
 
 {% endblock %}

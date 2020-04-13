@@ -60,7 +60,7 @@ class VentaController extends AbstractController
         else
         {   
 
-            return $this->render('producto_controlller/crear.html.twig', array(
+            return $this->render('venta/crear.html.twig', array(
                 'form' => $form->createView(),
             ));
 

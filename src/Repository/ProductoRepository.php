@@ -16,12 +16,16 @@ class ProductoRepository extends ServiceEntityRepository
     /**
      * @return Producto[]
      */
-    public function findAllOrderedByName()
-    {
+    public function findByName($string)
+    {   
+
         return $this->getEntityManager()
-            ->createQuery(
-                "SELECT p FROM App\Entity\Producto p where p.nombre = 'Jabon' ORDER BY p.nombre ASC"
-            )
-            ->getResult();
+                    ->createQuery(
+                        "SELECT p FROM App\Entity\Producto p 
+                        where p.nombre LIKE  :str 
+                        ORDER BY p.nombre ASC"
+                    )
+                    ->setParameter('str', '%'.$string.'%')
+                    ->getResult();
     }
 }

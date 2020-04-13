@@ -2,7 +2,7 @@ $breakpoints: (
   xs: 576px,
   sm: 768px,
   md: 992px,
-  lg: 1200px
+  lg: 1200px,
 );
 
 $color-verde: #117a8b;
@@ -37,18 +37,18 @@ a.nav-link {
 .table-responsive {
   font-size: 15px;
 }
-  
 
 #productos th {
   padding: 5px;
 }
 
-#productos td, th {
+#productos td,
+th {
   text-align: center;
 }
 
-#productos>tr>td {
-  background-color: red !important ; 
+#productos > tr > td {
+  background-color: red !important ;
 }
 
 #productos td {
@@ -94,8 +94,8 @@ a.nav-link {
   color: #138496 !important;
 }
 
-table.dataTable{
-  margin-bottom: 20px  !important;
+table.dataTable {
+  margin-bottom: 20px !important;
 }
 
 table.dataTable thead th,
@@ -107,18 +107,102 @@ table.dataTable.no-footer {
   border-bottom: 1px solid #1111114f !important;
 }
 
-.unidad{
+.unidad {
   font-size: 13px;
-  color: #00000094; 
+  color: #00000094;
 }
 
-
-.my-form-class label{
-  padding: 10px;
+.my-form-class label {
+  padding: 0px;
   font-size: 15px;
   //color: $color-verde !important;
-  width: 100% ;
+  width: 100%;
   font-weight: 550;
+}
+
+#buscador-productos {
+  padding: 20px 0px;
+}
+
+#post_type_producto_venta_submit {
+  display: none;
+}
+
+#post div {
+  padding-top: 10px;
+}
+
+#post_type_venta div {
+  padding-top: 10px;
+}
+
+#post_type_producto_venta {
+  padding: 20px;
+  background-color: #f7f7f74f;
+  border: 1px solid #80808038;
+  border-radius: 3px;
+  display: none;
+}
+
+// #producto-elegido::before {
+//   font-family: 'Font Awesome\ 5 Free';
+//   font-weight: 900; 
+//   content: "X";
+//   color: #117a8b;
+//   font-weight: 300;
+//   font-family: Arial, sans-serif;
+//   font-size: 25px;
+//   padding-right: 20px;
+// }
+
+#post_type_producto_venta div {
+  width: 20%;
+  float: right;
+}
+
+.form-agregar-producto {
+  //display: none;
+}
+
+#producto-elegido {
+  padding: 10px;
+  font-weight: 600;
+  color: grey;
+}
+
+.alert-info {
+  background-color: white;
+  border: none;
+  border-top: 1px solid rgb(17, 122, 139);
+  border-radius: 0px;
+  border-bottom: 1px solid rgb(17, 122, 139);
+  margin: 20px 0px;
+  font-size: 12px !important;
+  h5 {
+    font-size: 18px;
+  }
+}
+
+a.navbar-brand {
+  color: #117a8b !important;
+}
+
+.tabla-producto {
+  font-size: 15px;
+  margin-top: 20px;
+
+  th,
+  td {
+    text-align: left;
+    padding-left: 10px;
+    vertical-align: middle;
+  }
+
+  th {
+    font-size: 15px;
+    padding: 10px 0px;
+    padding-left: 10px;
+  }
 }
 
 @mixin mq($mq-breakpoint, $mq-breakpoints: $breakpoints) {
