@@ -25,7 +25,6 @@ class VentaController extends AbstractController
 
         $ventas = $repository->findAll(); 
         
-
         return $this->render('venta/index.html.twig', [
             'controller_name' => 'VentaController',
             'ventas' => $ventas
@@ -102,7 +101,7 @@ class VentaController extends AbstractController
             // Obtengo la venta
             $repository = $this->getDoctrine()->getRepository(Venta::class);
             $venta = $repository->findOneBy(['id' => $id]);
-            $productosVenta = $venta->getCantidad()->toArray() ;
+            $productosVenta = $venta->getProductosVenta()->toArray() ;
 
             // Creo formulario de agregar productos a la venta
             $ProductoVenta = new ProductoVenta();
@@ -244,13 +243,39 @@ class VentaController extends AbstractController
         $id_producto_venta = $producto->getId();
         
         $entityManager = $this->getDoctrine()->getManager();
-        $venta = $entityManager->getRepository(ProductoVenta::class)->find($id_producto_venta);
+        $producto_venta = $entityManager->getRepository(ProductoVenta::class)->find($id_producto_venta);
       
-        $entityManager->remove($venta);
+        $entityManager->remove($producto_venta);
         $entityManager->flush();
 
         return $this->redirectToRoute('v_editar_venta', array('id' => $id_venta));
     }
 
+     /**
+     * @Route("/prueba", name="prueba")
+     */
+    public function prueba( )
+    {   
+        echo "<br>aaa<br>";
 
+        $id = 1;
+        $repository = $this->getDoctrine()->getRepository(Venta::class);
+        $venta = $repository->findOneBy(['id' => $id]);
+        $productosVenta = $venta->getProductosVenta()->toArray() ;
+
+        foreach($productosVenta as $producto)
+        {   
+            echo "<pre>";
+            echo print_r($producto->getPrecioVenta());
+            echo "</pre>";
+        }
+
+        $response = new Response('<html>
+            <body>
+                <h1>Hello Symfony 4 World</h1>
+            </body>
+        </html>');
+
+        return $response;
+    }
 }

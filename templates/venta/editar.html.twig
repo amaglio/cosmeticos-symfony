@@ -147,7 +147,12 @@
 
     function cerrar_opcion()
     {
-        alert("aaa");
+        $('input[id="post_type_producto_venta_precio_costo"]').val('');               
+        $('input[id="post_type_producto_venta_precio_venta"]').val('');
+        $('input[id="post_type_producto_venta_cantidad"]').val('');
+        $('#producto-elegido').remove();
+        $( "#cerrar-producto-elegido" ).remove();
+        $('#post_type_producto_venta').hide();
     }
  
  

@@ -8,6 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  use Symfony\Component\Form\Extension\Core\Type\TextType; 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType; 
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+
 
 class PostTypeProductoVenta extends AbstractType
 {
@@ -18,9 +20,11 @@ class PostTypeProductoVenta extends AbstractType
             ->add('producto_id', HiddenType::class, array('attr' => array('readonly' => true)) ) 
             ->add('precio_costo', HiddenType::class, array('attr' => array('readonly' => true)) )
             ->add('precio_venta', HiddenType::class, array('attr' => array('readonly' => true)))
-            ->add('cantidad', HiddenType::class, [
-                'attr' => array('placeholder' => "Ingrese la cantidad" ,
-                                'required' => true )
+            ->add('cantidad', NumberType::class, [
+                'html5' => true,
+                'attr' => array('placeholder' => "Ingrese la cantidad2" ,
+                                'required' => true,
+                                 )
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Agregar',

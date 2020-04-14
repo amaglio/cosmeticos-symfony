@@ -41,11 +41,11 @@ class Venta
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ProductoVenta", mappedBy="venta_id")
      */
-    private $cantidad;
+    private $productos_venta;
 
     public function __construct()
     {
-        $this->cantidad = new ArrayCollection();
+        $this->productos_venta = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,36 +99,48 @@ class Venta
         $this->email = $email;
 
         return $this;
-    }
-
+    } 
     /**
      * @return Collection|ProductoVenta[]
      */
-    public function getCantidad(): Collection
+    public function getProductosVenta(): Collection
     {
-        return $this->cantidad;
+        return $this->productos_venta;
     }
 
-    public function addCantidad(ProductoVenta $cantidad): self
-    {
-        if (!$this->cantidad->contains($cantidad)) {
-            $this->cantidad[] = $cantidad;
-            $cantidad->setVentaId($this);
+    public function getTotalVenta() 
+    {   
+        $total = 0;
+        $productos = $this->productos_venta->toArray();
+
+        foreach($productos as $producto)
+        {
+            $total += $producto->getPrecioVenta() * $producto->getCantidad() ;
         }
 
-        return $this;
+        return $total;
     }
 
-    public function removeCantidad(ProductoVenta $cantidad): self
-    {
-        if ($this->cantidad->contains($cantidad)) {
-            $this->cantidad->removeElement($cantidad);
-            // set the owning side to null (unless already changed)
-            if ($cantidad->getVentaId() === $this) {
-                $cantidad->setVentaId(null);
-            }
-        }
+    // public function addCantidad(ProductoVenta $cantidad): self
+    // {
+    //     if (!$this->cantidad->contains($cantidad)) {
+    //         $this->cantidad[] = $cantidad;
+    //         $cantidad->setVentaId($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
+
+    // public function removeCantidad(ProductoVenta $cantidad): self
+    // {
+    //     if ($this->cantidad->contains($cantidad)) {
+    //         $this->cantidad->removeElement($cantidad);
+    //         // set the owning side to null (unless already changed)
+    //         if ($cantidad->getVentaId() === $this) {
+    //             $cantidad->setVentaId(null);
+    //         }
+    //     }
+
+    //     return $this;
+    // }
 }
