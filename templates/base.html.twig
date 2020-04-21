@@ -9,7 +9,7 @@
             <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
             <link rel="stylesheet" href="{{ asset('css/global.css') }}">
         {% endblock %}
-        <script src="https://kit.fontawesome.com/4273774a54.js" crossorigin="anonymous"></script>
+        {# <script src="https://kit.fontawesome.com/4273774a54.js" crossorigin="anonymous"></script> #}
      </head>
     <body>
        
@@ -39,38 +39,19 @@
                         </li>
                     </ul>
                 </div>
-                </nav>
+            </nav>
 
+            {% block body %}
 
-        {% block body %}
+            {% endblock %}
 
-        {% endblock %}
-        {% block javascripts %}
-        
-            
-            <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}">  </script>
-        {% endblock %}
+            {% block javascripts %}
+                <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.js') }}">  </script>
+                <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}">  </script>
+                <script type="text/javascript" src="{{ asset('js/kit.fontawesome.js') }}">  </script>
+            {% endblock %}
         
         </div>
-        
- 
-        {#
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.1/axios.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vuetable-2@1.7.5/dist/vuetable-2-full.js"></script>
-        
-       
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.1/axios.min.js"></script>
-        <script src="https://unpkg.com/vuetable-2@1.6.0"></script>
-    
-
-            <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script src="https://rawgit.com/matfish2/vue-tables-2/master/dist/vue-tables-2.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        
-
-        <script type="text/javascript" src="{{ asset('js/scripts.js') }}"></script>#}
         
     </body>
 </html>

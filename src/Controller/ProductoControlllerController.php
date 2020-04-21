@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 
 class ProductoControlllerController extends AbstractController  
-{
+{   
     /**
      * @Route("/productos", name="producto_controlller")
      * Productos habilitados

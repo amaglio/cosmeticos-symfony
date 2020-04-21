@@ -8,6 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType; 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class PostType extends AbstractType
 {
@@ -16,23 +18,26 @@ class PostType extends AbstractType
 
         $builder
             ->add('nombre', TextType::class, [
-                'label' => 'Nombre y apellido',
+                'label' => 'Nombre del producto',
                 'attr' => ['class' => 'col-md-12 form-control'],
+                'required' => false
             ])
-            ->add('codigo', TextType::class, [
+            ->add('codigo', IntegerType::class, [
                 'label' => 'Codigo',
                 'attr' => ['class' => 'col-md-12 form-control'],
             ])
             ->add('descripcion', TextareaType::class, [ 
                 'attr' => ['class' => 'col-md-12 form-control']
             ]) 
-            ->add('precio_costo', TextType::class,[ 
-                'attr' => ['class' => 'col-md-12 form-control']
+            ->add('precio_costo', MoneyType::class, [ 
+                'attr' => ['class' => 'col-md-12 form-control',
+                'step' => 0.01 ]
             ])
-            ->add('precio_venta', TextType::class, [ 
-                'attr' => ['class' => 'col-md-12 form-control']
+            ->add('precio_venta', MoneyType::class, [ 
+                'attr' => ['class' => 'col-md-12 form-control',
+                'step' => 0.01]
             ])
-            ->add('stock', TextType::class, [ 
+            ->add('stock', IntegerType::class, [ 
                 'attr' => ['class' => 'col-md-12 form-control']
             ]) 
             ->add('submit', SubmitType::class, [

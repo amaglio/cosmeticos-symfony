@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
  
 
@@ -19,7 +20,7 @@ class Producto
 
     /**
      * @ORM\Column(type="string", length=255)
-     *  
+     * @Assert\NotBlank(message="asdasd")
      */
     private $nombre;
 
@@ -28,23 +29,31 @@ class Producto
      */
     private $descripcion;
 
-    /**
+    /**""
      * @ORM\Column(type="float")
+     * @Assert\NotBlank
+     * @Assert\Positive 
      */
     private $precio_costo;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Assert\NotBlank
+     * @Assert\Positive
      */
     private $precio_venta;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
+     * @Assert\Positive
      */
     private $stock;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\NotBlank
+     * @Assert\Positive
      */
     private $codigo;
 

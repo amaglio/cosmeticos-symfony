@@ -1,6 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductoControlllerController!{% endblock %}
+{% block title %}Editar un producto{% endblock %}
+
+{% form_theme form _self %}
+
+{% block integer_widget %}
+    <div class="integer_widget">
+        {% set type = type|default('number') %}
+        {{ block('form_widget_simple') }}
+    </div>
+{% endblock %}
+
+{% block money_widget %}
+    <div class="money_widget">
+        {% set type = type|default('number') %}
+        {{ block('form_widget_simple') }}
+    </div>
+{% endblock %}
 
 {% block body %}
  
@@ -9,7 +25,17 @@
 </div>
 
 {{ form_start(form, {attr: {class: 'my-form-class'} }) }}
-{{ form_widget(form) }}
+{{ form_row(form.nombre) }}
+{{ form_row(form.codigo) }}
+{{ form_row(form.descripcion) }}
+{{ form_row(form.precio_costo) }}
+{{ form_row(form.precio_venta) }}
+{{ form_row(form.stock) }}
+{{ form_row(form.submit) }}
 {{ form_end(form) }}
+
+{# {{ form_start(form, {attr: {class: 'my-form-class'} }) }}
+{{ form_widget(form) }}
+{{ form_end(form) }} #}
 
 {% endblock %}

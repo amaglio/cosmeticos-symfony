@@ -2,10 +2,13 @@
 
 {% block title %}Hello VentaController!{% endblock %}
 
+{% block stylesheets %} 
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
+{% endblock %}
+
 {% block body %}
  
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-
 <style>
     .jumbotron-light {
 
@@ -14,10 +17,9 @@
 
     }
 </style>
-<div class="example-wrapper" >
- 
-    
 
+<div class="example-wrapper" >
+     
         <div class="row">
             <div class="col-lg-9">
                 <a href="{{ path('v_crear_venta') }}" class="btn btn-info btn-s"> <i class="fas fa-plus"></i> Cargar venta </a> 
@@ -61,24 +63,32 @@
                                             
                                             <tr>  
                                                 <th class="text-left border-0 col-md-2"  >Productos</th>
-                                                <th class="border-0 text-center col-md-1"><i class="fas fa-coins" data-toggle="tooltip" data-placement="top" title="Precio costo"></i> </th>
+                                                <th class="border-0 text-center col-md-1"><i class="fas fa-hashtag"  data-toggle="tooltip" data-placement="top" title="Cantidad comprada" ></i> </th>
                                                 <th class="border-0 text-center col-md-1"><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Precio venta"></i></th>
+                                                <th class="border-0 text-center col-md-1"><i class="fas fa-coins" data-toggle="tooltip" data-placement="top" title="Precio costo"></i> </th>
                                                 <th class="border-0 text-center col-md-1"><i class="fas fa-hand-holding-usd" data-toggle="tooltip" data-placement="top" title="Ganancia $"></i></th>
                                                 <th class="border-0 text-center col-md-1"><i class="fas fa-percentage" data-toggle="tooltip" data-placement="top" title="Ganancia %"></i></th>
                                             </tr>
                                         {% for prod in venta.getProductosVenta() %}
+
+                                            {% set producto = prod.getProductoId() %}
                                             <tr class="text-left">  
-                                                <td class="text-left">{{ prod.getProductoId().getNombre() }}</td>
-                                                <td class="text-center">{{ prod.getProductoId().getPrecioCosto() }}</td> 
-                                                <td class="text-center">{{ prod.getProductoId().getPrecioVenta() }}</td>
-                                                <td class="text-center">{{ prod.getProductoId().getPrecioVenta() - prod.getProductoId().getPrecioCosto()   }}</td>
-                                                <td class="text-center">{{ (( prod.getProductoId().getPrecioVenta() - prod.getProductoId().getPrecioCosto() ) * 100 / prod.getProductoId().getPrecioCosto()) |round(2, 'floor') }}%</td>
+                                                <td class="text-left">{{ producto.getNombre() }}</td>
+                                                <td class="text-center">{{ prod.getCantidad() }}</td>
+                                                <td class="text-center"><span class="unidad">$</span> {{ producto.getPrecioVenta() }}</td>
+                                                <td class="text-center"><span class="unidad">$</span> {{ producto.getPrecioCosto() }}</td> 
+                                                <td class="text-center"><span class="unidad">$</span> {{ producto.getPrecioVenta() - producto.getPrecioCosto()   }}</td>
+                                                <td class="text-center">{{ (( producto.getPrecioVenta() - producto.getPrecioCosto() ) * 100 / producto.getPrecioCosto()) |round(2, 'floor') }}%</td>
                                             </tr>
                                            
                                         {% endfor %}
                                             <tr>
-                                                <td>
-                                                    {{ venta.getTotalVenta() }}
+                                                <th class="text-left">
+                                                    Total
+                                                </th>
+                                                <td></td>
+                                                <td class="text-center">
+                                                    <span class="unidad">$</span> {{ venta.getTotalVenta() }}
                                                 </td>
                                             <tr>
                                         </table>
@@ -100,56 +110,12 @@
              
         </div>
 
-
 </div> 
 
- <script src="https://code.jquery.com/jquery-3.3.1.js"></script>  
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<script>
- 
-// Code that uses other library's $ can follow here.
-   $(document).ready(function() {
-        $('#ventas').DataTable({
-            language: {
-                "sProcessing":     "Procesando...",
-                    "sLengthMenu":     "Mostrar _MENU_ registros",
-                    "sZeroRecords":    "No se encontraron resultados",
-                    "sEmptyTable":     "Ningún dato disponible en esta tabla =(",
-                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix":    "",
-                    "sSearch":         "Buscar:",
-                    "sUrl":            "",
-                    "sInfoThousands":  ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst":    "Primero",
-                        "sLast":     "Último",
-                        "sNext":     "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    },
-                    "buttons": {
-                        "copy": "Copiar",
-                        "colvis": "Visibilidad"
-                    }
-            }
-            
-        });
-        
-        $( "select[name='ventas_length']").addClass('form-control" btn btn-info');
-
-        $( "a.paginate_button").addClass('btn btn-info');
-        $( "a.paginate_button").removeClass('paginate_button`');
-    } );
-</script>
-<script>
-
- 
-</script>
-
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/jquery.dataTables.min.js') }}">  </script>
+    <script type="text/javascript" src="{{ asset('js/venta.js') }}">  </script>
+{% endblock %} 

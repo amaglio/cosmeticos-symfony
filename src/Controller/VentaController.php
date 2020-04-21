@@ -251,9 +251,10 @@ class VentaController extends AbstractController
         return $this->redirectToRoute('v_editar_venta', array('id' => $id_venta));
     }
 
-     /**
+    /**
      * @Route("/prueba", name="prueba")
      */
+    
     public function prueba( )
     {   
         echo "<br>aaa<br>";
