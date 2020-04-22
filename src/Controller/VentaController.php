@@ -37,7 +37,6 @@ class VentaController extends AbstractController
     public function v_crear_venta(Request $request)
     {
         $venta = new Venta();
-        
         $form = $this->createForm(PostTypeVenta::class, $venta);
 
         $form->handleRequest($request);
@@ -95,7 +94,6 @@ class VentaController extends AbstractController
             return $this->redirectToRoute('ventas');
         }
         else
-
         {   
             
             // Obtengo la venta

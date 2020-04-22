@@ -20,8 +20,17 @@
             <div class="card-body">
                
                 {{ form_start(form, {attr: {class: 'my-form-class'} }) }}
-                {{ form_widget(form) }}
+               
+                    {{ form_errors(form) }}  
+                
+                {{ form_row(form.nombre)   }}
+                {# {{ form_row(form.nombre, {attr: { value : '03/03/2020' } })   }} #}
+                {{ form_row(form.fecha, {attr: { value :  "now"|date("Y-m-d") } })  }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.telefono) }} 
+                {{ form_row(form.submit) }}
                 {{ form_end(form) }}
+
             </div>
         </div> 
     </div>

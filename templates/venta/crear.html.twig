@@ -1,6 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Crear un nuevo producto{% endblock %}
+{% block title %}Cargar una nueva venta{% endblock %}
+
+{% form_theme form _self %}
+
+{# {% block _post_type_venta_nombre_widget %}
+    <div class="integer_widget">
+        {% set value = value|default('number') %} 
+        {{ block('form_widget_simple') }}
+    </div>
+{% endblock %} #}
+
+{# {% block _post_type_venta_fecha_widget %}
+    <div class="integer_widget">
+        {% set value = value|default('01-01-2020') %} 
+        {{ block('form_widget_simple') }}
+    </div>
+{% endblock %} #}
 
 {% block body %}
 
@@ -9,9 +25,14 @@
 </div>
 
 <div class="col-md-8 offset-md-3 ">
+ 
 
 {{ form_start(form, {attr: {class: 'my-form-class'} }) }}
-{{ form_widget(form) }}
+{{ form_row(form.nombre)   }}
+{{ form_row(form.fecha, {attr: { value :  "now"|date("Y-m-d") } })  }}
+{{ form_row(form.email) }}
+{{ form_row(form.telefono) }} 
+{{ form_row(form.submit) }}
 {{ form_end(form) }}
 
 <div>

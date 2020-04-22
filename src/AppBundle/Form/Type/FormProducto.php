@@ -19,19 +19,18 @@ class PostType extends AbstractType
         $builder
             ->add('nombre', TextType::class, [
                 'label' => 'Nombre del producto',
-                'attr' => ['class' => 'col-md-12 form-control'],
-                'required' => false
+                'attr' => ['class' => 'col-md-12 form-control']
             ])
             ->add('codigo', IntegerType::class, [
                 'label' => 'Codigo',
-                'attr' => ['class' => 'col-md-12 form-control'],
+                'attr' => ['class' => 'col-md-12 form-control']
             ])
             ->add('descripcion', TextareaType::class, [ 
                 'attr' => ['class' => 'col-md-12 form-control']
             ]) 
             ->add('precio_costo', MoneyType::class, [ 
-                'attr' => ['class' => 'col-md-12 form-control',
-                'step' => 0.01 ]
+                'attr' => [ 'class' => 'col-md-12 form-cont,rol',
+                            'step' => 0.01 ]
             ])
             ->add('precio_venta', MoneyType::class, [ 
                 'attr' => ['class' => 'col-md-12 form-control',

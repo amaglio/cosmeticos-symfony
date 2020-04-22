@@ -20,7 +20,7 @@ class Producto
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="asdasd")
+     * @Assert\NotBlank(message="Debe completar el nombre del producto")
      */
     private $nombre;
 
@@ -29,31 +29,31 @@ class Producto
      */
     private $descripcion;
 
-    /**""
+    /** 
      * @ORM\Column(type="float")
-     * @Assert\NotBlank
-     * @Assert\Positive 
+     * @Assert\NotBlank(message="Debe completar el precio de costo")
+     * @Assert\Positive(message="El precio de costo debe ser positivo") 
      */
     private $precio_costo;
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Assert\NotBlank
-     * @Assert\Positive
+     * @Assert\NotBlank(message="Debe completar el precio de venta")
+     * @Assert\Positive(message="El precio de venta debe ser positivo")  
      */
     private $precio_venta;
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\NotBlank
-     * @Assert\Positive
+     * @Assert\NotBlank(message="Debe completar el stock")
+     * @Assert\Positive(message="El stock debe ser positivo") 
      */
     private $stock;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\NotBlank
-     * @Assert\Positive
+     * @Assert\NotBlank(message="Debe completar el codigo")
+     * @Assert\Positive(message="El codigo debe ser positivo")
      */
     private $codigo;
 
