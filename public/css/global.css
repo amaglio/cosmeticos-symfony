@@ -114,8 +114,11 @@ table.dataTable.no-footer {
   padding: 20px 0px;
 }
 
-#post_type_producto_venta_submit {
-  display: none;
+#cerrar-producto-elegido {
+  color: #bd2130;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  font-weight: bolder;
 }
 
 #post div {
@@ -128,10 +131,7 @@ table.dataTable.no-footer {
 
 #post_type_producto_venta {
   padding: 20px;
-  background-color: #f7f7f74f;
-  border: 1px solid #80808038;
   border-radius: 3px;
-  display: none;
 }
 
 #post_type_producto_venta div {

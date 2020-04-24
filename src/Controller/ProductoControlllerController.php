@@ -57,6 +57,11 @@ class ProductoControlllerController extends AbstractController
             $entityManager->persist($task);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Producto creado exitosamente');
+
+            // return $this->redirectToRoute('v_editar_producto', array(
+            //     'id' => $task->getId()
+            // ));
             return $this->redirectToRoute('producto_controlller');
         }
         else
@@ -67,28 +72,30 @@ class ProductoControlllerController extends AbstractController
 
         }
         
-        
     }
     
     /**
      * @Route("/productos/editar/{id}", name="v_editar_producto")
      */
+
     public function v_editar_producto( Request $request, $id )
     {   
-        $producto = new Producto();
+        $entityManager = $this->getDoctrine()->getManager();
+        $producto = $entityManager->getRepository(Producto::class)->find($id);
+
+        if (!$producto) {
+            throw $this->createNotFoundException(
+                'There are no producto with the following id: ' . $id
+            );
+        }
+
         $form = $this->createForm(PostType::class, $producto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) 
         {   
-            $entityManager = $this->getDoctrine()->getManager();
-            
+
             $task = $form->getData();
-
-            var_dump($task->getNombre());
-
-            $producto = $entityManager->getRepository(Producto::class)->find($id);
-
             $producto->setNombre($task->getNombre());
             $producto->setDescripcion($task->getDescripcion());
             $producto->setPrecioCosto($task->getPrecioCosto());
@@ -97,34 +104,21 @@ class ProductoControlllerController extends AbstractController
             $producto->setCodigo($task->getCodigo());
 
             $entityManager->flush();
-
+            
+            $this->addFlash('success', 'Producto editado exitosamente');
+            
             return $this->redirectToRoute('producto_controlller');
 
-            /*$producto->setName('New product name!');*/
-
-
-
-            /*
-            $task = $form->getData();
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($task);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('producto_controlller');*/
-            //echo "UPDATE";
         }
         else
         {
-
-            $repository = $this->getDoctrine()->getRepository(Producto::class);
-            $producto = $repository->findOneBy(['id' => $id]);
-            $form = $this->createForm(PostType::class, $producto);
             return $this->render('producto_controlller/editar.html.twig', array(
                 'id' => $id,
                 'form' => $form->createView()
             ));        
         }
     }
+  
 
     /**
      * @Route("/productos/eliminar/{id}", name="eliminar_producto")
@@ -140,8 +134,11 @@ class ProductoControlllerController extends AbstractController
             );
         }
 
-        $entityManager->remove($producto);
+        //$entityManager->remove($producto);
+        $producto->setEnabled(false); 
         $entityManager->flush();
+
+        $this->addFlash('success', 'Producto eliminado exitosamente');
 
         return $this->redirectToRoute('producto_controlller');
     }

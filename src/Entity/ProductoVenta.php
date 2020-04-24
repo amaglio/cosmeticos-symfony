@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductoVentaRepository")
@@ -23,23 +24,27 @@ class ProductoVenta
     private $producto_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Venta" )
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Venta",  inversedBy="productos_venta" )
+     * @ORM\JoinColumn(nullable=false) 
      */
     private $venta_id;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Debe completar la cantidad")
+     * @Assert\Positive(message="La cantidad debe ser positiva")
      */
     private $cantidad;
 
-    /**
+    /** 
      * @ORM\Column(type="float")
+     * @Assert\NotBlank(message="Debe completar el precio de costo") 
      */
     private $precio_costo;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
+     * @Assert\NotBlank(message="Debe completar el precio de venta")  
      */
     private $precio_venta;
 

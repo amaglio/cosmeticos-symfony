@@ -49,6 +49,11 @@ class Venta
      */
     private $productos_venta;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enabled = true;
+
     public function __construct()
     {
         $this->productos_venta = new ArrayCollection();
@@ -125,6 +130,24 @@ class Venta
         }
 
         return $total;
+    }
+
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+
+    public function __toString()
+    {
+        return $this->nombre;
     }
 
     // public function addCantidad(ProductoVenta $cantidad): self

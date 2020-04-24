@@ -22,7 +22,7 @@ class PostTypeVenta extends AbstractType
             ])
             ->add('fecha', DateType::class,[
                 'label' => 'Fecha',
-                'attr' => ['class' => 'col-md-12  '], 
+                'attr' => ['class' => 'col-md-12 form-control'], 
                 'widget' => 'single_text'
             ]) 
             ->add('telefono', TextType::class,[

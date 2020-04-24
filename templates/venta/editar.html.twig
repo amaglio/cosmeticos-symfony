@@ -11,6 +11,12 @@
     <h5><i class="fas fa-edit" aria-hidden="true"></i> &nbsp;  Editar la venta </h5>
 </div>
 
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+
 <div class="row">
     <div class="col-md-4">
         <div class="card ">
@@ -19,10 +25,7 @@
             </div>
             <div class="card-body">
                
-                {{ form_start(form, {attr: {class: 'my-form-class'} }) }}
-               
-                    {{ form_errors(form) }}  
-                
+                {{ form_start(form, {attr: {class: 'my-form-class'} }) }} 
                 {{ form_row(form.nombre)   }}
                 {# {{ form_row(form.nombre, {attr: { value : '03/03/2020' } })   }} #}
                 {{ form_row(form.fecha, {attr: { value :  "now"|date("Y-m-d") } })  }}
@@ -37,12 +40,12 @@
     <div class="col-md-8"> 
         <div class="card">
             <div class="card-header">
-                 <h5 class="card-title">Productos venta</h5>
+                 <h5 class="card-title">Productos de la venta</h5>
             </div> 
                 <div class="container">
                     <div class="col-lg-12" id="buscador-productos">
 
-                        <div class="sidebar-search">
+                        {# <div class="sidebar-search">
                             <div class="input-group custom-search-form">
                             <label for="post_type_venta_nombre"><i class="fas fa-search"></i> Buscar producto</label>
                             </div>
@@ -57,10 +60,48 @@
                                 </ul>
                             </li>
                         </ul>
+                        <form class="form-inline d-none">
 
-                        {{ form_start(form_producto_venta, {attr: {class: 'form-agregar-producto'} }) }}
-                        {{ form_widget(form_producto_venta) }}
+                            <label class="sr-only" for="inlineFormInputName2">Name</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe">
+
+                            <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+                            
+
+                            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                        </form> #}
+
+                        {{ form_start(form_producto_venta, { attr: { class: ' form-inline' } } ) }}
+                        
+                        
+                        {{ form_row(form_producto_venta.precio_costo) }}
+                        
+                         <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            </div>
+                            {{ form_row(form_producto_venta.venta_id) }}
+                        </div>
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fab fa-product-hunt"></i>
+                            </div>
+                            </div>
+                            {{ form_row(form_producto_venta.producto_id) }}
+                        </div>
+                        <div class="input-group mb-1 mr-sm-1">
+                            <div class="input-group-prepend">
+                            <div class="input-group-text">#</div>
+                            </div>
+                            {{ form_row(form_producto_venta.cantidad) }}
+                        </div>
+                        {{ form_row(form_producto_venta.submit) }} 
+                       
                         {{ form_end(form_producto_venta) }}
+
                     </div>
                     <div class="col-lg-12"> 
                         <table class="table table-sm table-striped tabla-producto">
@@ -79,10 +120,19 @@
                                         <td class="text-center">{{  producto.getCantidad()  }}</td>
                                         <td class="text-center">{{  producto.getPrecioVenta()  }}</td>
                                         <td class="text-center">
-                                            <a href="{{ path('v_eliminar_producto_venta',{id_producto: producto.getProductoId().getId(), id_venta: id } ) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar el producto"> <i class="fas fa-trash" aria-hidden="true"></i>  </a>                                </td>
+                                            <a onclick="return confirm('Seguro desea eliminar el producto de la venta ? No se puede deshacer.')" href="{{ path('v_eliminar_producto_venta',{id_producto: producto.getProductoId().getId(), id_venta: id } ) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar el producto"> <i class="fas fa-trash" aria-hidden="true"></i>  </a>                                </td>
                                         </td>
                                     </tr>
                                 {% endfor %}
+                                    <tr>
+                                        <th class="text-left">
+                                            Total
+                                        </th>
+                                        <td></td>
+                                        <td class="text-center">
+                                            <span class="unidad">$</span> {{ venta.getTotalVenta() }}
+                                        </td>
+                                    <tr>
                             </tbody>
                         </table>
                     </div>     

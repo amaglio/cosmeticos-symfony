@@ -17,7 +17,13 @@
 </style>
 
 <div class="example-wrapper" id="div_productos" >
- 
+    
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    
     <a href="{{ path('v_crear_producto') }}" class="btn btn-info btn-s"> Crear + </a> 
 
     {% if productos %}
@@ -25,7 +31,7 @@
         <table class="table table-stripped " id="productos">
             <thead>    
                 <tr>
-                    <th>ID</th> 
+                    <th>Codigo</th> 
                     <th>Nombre</th>
                     <th><i class="fas fa-coins" data-toggle="tooltip" data-placement="top" title="Precio costo"></i></th>
                     <th><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Precio venta"></th>
@@ -38,7 +44,7 @@
             <tbody>
             {% for producto in productos %}
                 <tr>
-                    <td>{{ producto.id  }} </td>
+                    <td>{{ producto.getCodigo()  }} </td>
                     <td class="text-left" >{{ producto.getNombre() }} </td> 
                     <td><span class="unidad">$</span> {{ producto.getPrecioCosto() }} </td> 
                     <td><span class="unidad">$</span> {{ producto.getPrecioVenta() }} </td>
@@ -47,7 +53,7 @@
                     <td>{{ producto.getStock() }} </td>
                     <td>  
                         <a href="{{ path('v_editar_producto',{id: producto.id} ) }}" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Editar el producto">  <i class="fas fa-edit"></i> </a> 
-                        <a href="{{ path('eliminar_producto',{id: producto.id} ) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar el producto"> <i class="fas fa-trash"></i>  </a>
+                        <a  onclick="return confirm('Seguro desea eliminar el producto ? No se puede deshacer.')" href="{{ path('eliminar_producto',{id: producto.id} ) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar el producto"> <i class="fas fa-trash"></i>  </a>
 
                     </td>
 

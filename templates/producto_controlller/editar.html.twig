@@ -24,6 +24,12 @@
     <h4>Editar el producto</h4>
 </div>
 
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+
 {{ form_start(form, {attr: {class: 'my-form-class'} }) }}
 {{ form_row(form.nombre) }}
 {{ form_row(form.codigo) }}

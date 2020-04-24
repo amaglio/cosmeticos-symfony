@@ -19,6 +19,12 @@
 </style>
 
 <div class="example-wrapper" >
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
      
         <div class="row">
             <div class="col-lg-9">
@@ -75,8 +81,8 @@
                                             <tr class="text-left">  
                                                 <td class="text-left">{{ producto.getNombre() }}</td>
                                                 <td class="text-center">{{ prod.getCantidad() }}</td>
-                                                <td class="text-center"><span class="unidad">$</span> {{ producto.getPrecioVenta() }}</td>
-                                                <td class="text-center"><span class="unidad">$</span> {{ producto.getPrecioCosto() }}</td> 
+                                                <td class="text-center"><span class="unidad">$</span> {{ prod.getPrecioVenta() }}</td>
+                                                <td class="text-center"><span class="unidad">$</span> {{ prod.getPrecioCosto() }}</td> 
                                                 <td class="text-center"><span class="unidad">$</span> {{ producto.getPrecioVenta() - producto.getPrecioCosto()   }}</td>
                                                 <td class="text-center">{{ (( producto.getPrecioVenta() - producto.getPrecioCosto() ) * 100 / producto.getPrecioCosto()) |round(2, 'floor') }}%</td>
                                             </tr>
@@ -96,7 +102,7 @@
                                     </td> 
                                     <td> 
                                         <a href="{{ path('v_editar_venta',{id: venta.id} ) }}" class="btn btn-success">  <i class="fas fa-edit"></i> </a> 
-                                        <a href="{{ path('eliminar_venta',{id: venta.id} ) }}" class="btn btn-danger"> <i class="fas fa-trash"></i>  </a>
+                                        <a onclick="return confirm('Seguro desea eliminar la venta ? No se puede deshacer.')" href="{{ path('eliminar_venta',{id: venta.id} ) }}" class="btn btn-danger"> <i class="fas fa-trash"></i>  </a>
                                     </td>
                                 </tr>
                             {% endfor %}
