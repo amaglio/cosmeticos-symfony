@@ -9,7 +9,7 @@ $(document).ready(function() {
                 "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
                 "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
                 "sInfoPostFix":    "",
-                "sSearch":         "Buscar:",
+                "sSearch":         "<i data-toggle='tooltip' data-placement='top' title='Buscar venta' class='fas fa-search'></i>",
                 "sUrl":            "",
                 "sInfoThousands":  ",",
                 "sLoadingRecords": "Cargando...",

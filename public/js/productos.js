@@ -9,15 +9,15 @@ $(document).ready(function() {
                 "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
                 "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
                 "sInfoPostFix":    "",
-                "sSearch":         "Buscar:",
+                "sSearch":         "<i data-toggle='tooltip' data-placement='top' title='Buscar productos' class='fas fa-search'></i>",
                 "sUrl":            "",
                 "sInfoThousands":  ",",
                 "sLoadingRecords": "Cargando...",
                 "oPaginate": {
                     "sFirst":    "Primero",
                     "sLast":     "Último",
-                    "sNext":     "Siguiente",
-                    "sPrevious": "Anterior"
+                    "sNext":     "  <i class='fas fa-1x fa-angle-right'></i>",
+                    "sPrevious": "  <i class='fas fa-1x fa-angle-left'></i>"
                 },
                 "oAria": {
                     "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",

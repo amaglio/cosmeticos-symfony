@@ -71,6 +71,7 @@
                                                 <th class="text-left border-0 col-md-2"  >Productos</th>
                                                 <th class="border-0 text-center col-md-1"><i class="fas fa-hashtag"  data-toggle="tooltip" data-placement="top" title="Cantidad comprada" ></i> </th>
                                                 <th class="border-0 text-center col-md-1"><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Precio venta"></i></th>
+                                                <th class="border-0 text-center col-md-1"><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Cantidad x Precio venta"></i> * <i class="fas fa-hashtag"  data-toggle="tooltip" data-placement="top" title="Cantidad comprada" ></i> </th>
                                                 <th class="border-0 text-center col-md-1"><i class="fas fa-coins" data-toggle="tooltip" data-placement="top" title="Precio costo"></i> </th>
                                                 <th class="border-0 text-center col-md-1"><i class="fas fa-hand-holding-usd" data-toggle="tooltip" data-placement="top" title="Ganancia $"></i></th>
                                                 <th class="border-0 text-center col-md-1"><i class="fas fa-percentage" data-toggle="tooltip" data-placement="top" title="Ganancia %"></i></th>
@@ -82,20 +83,22 @@
                                                 <td class="text-left">{{ producto.getNombre() }}</td>
                                                 <td class="text-center">{{ prod.getCantidad() }}</td>
                                                 <td class="text-center"><span class="unidad">$</span> {{ prod.getPrecioVenta() }}</td>
+                                                <td class="text-center bk-grey"><span class="unidad">$</span> {{ prod.getPrecioVenta() *  prod.getCantidad()   }}</td>
                                                 <td class="text-center"><span class="unidad">$</span> {{ prod.getPrecioCosto() }}</td> 
                                                 <td class="text-center"><span class="unidad">$</span> {{ producto.getPrecioVenta() - producto.getPrecioCosto()   }}</td>
                                                 <td class="text-center">{{ (( producto.getPrecioVenta() - producto.getPrecioCosto() ) * 100 / producto.getPrecioCosto()) |round(2, 'floor') }}%</td>
                                             </tr>
                                            
                                         {% endfor %}
-                                            <tr>
-                                                <th class="text-left">
+                                            <tr class="bk-grey">
+                                                <th class="text-left bk-grey">
                                                     Total
                                                 </th>
-                                                <td></td>
-                                                <td class="text-center">
+                                                <td colspan="2" class="bk-grey"></td>
+                                                <th class="text-center bk-grey">
                                                     <span class="unidad">$</span> {{ venta.getTotalVenta() }}
-                                                </td>
+                                                </th>
+                                                <td colspan="3" class="bk-grey"></td>
                                             <tr>
                                         </table>
                                         

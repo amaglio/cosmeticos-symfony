@@ -15,7 +15,33 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  
 
 class VentaController extends AbstractController
-{
+{   
+    /**
+     * @Route("/", name="home")
+     */
+    public function home()
+    {   
+        $repository = $this->getDoctrine()->getRepository(Venta::class);
+  
+        $ventas = $repository->findBy(
+            ['enabled' => 1 ] 
+        ); 
+
+        $ventas = $repository->findByDate(date("Y/m/d"),date("Y/m/d")); 
+
+        $repository = $this->getDoctrine()->getRepository(Producto::class);
+
+        $productos = $repository->findBy(
+            ['enabled' => 1 ] 
+        ); 
+
+        return $this->render('venta/home.html.twig', [
+            'controller_name' => 'VentaController',
+            'ventas' => $ventas,
+            'productos' => $productos
+        ]);
+    }
+
     /**
      * @Route("/ventas", name="ventas")
      */
@@ -33,6 +59,8 @@ class VentaController extends AbstractController
             'ventas' => $ventas
         ]);
     }
+
+    
 
     /**
      * @Route("/ventas/crear", name="v_crear_venta")

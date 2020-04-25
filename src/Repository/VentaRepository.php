@@ -19,6 +19,38 @@ class VentaRepository extends ServiceEntityRepository
         parent::__construct($registry, Venta::class);
     }
 
+    /**
+     * @return Venta[]
+     */
+    public function findByName($string)
+    {   
+        return $this->getEntityManager()
+                    ->createQuery(
+                        "SELECT v FROM App\Entity\Venta v 
+                        where v.nombre LIKE  :str 
+                        ORDER BY v.nombre ASC"
+                    )
+                    ->setParameter('str', '%'.$string.'%')
+                    ->getResult();
+    }
+    
+    /**
+     * @return Venta[]
+     */
+    public function findByDate($fecha_inicio, $fecha_fin)
+    {   
+        return $this->getEntityManager()
+                    ->createQuery(
+                        "SELECT v FROM App\Entity\Venta v 
+                        where v.fecha >=  :fecha_inicio 
+                        AND  v.fecha <=  :fecha_fin
+                        ORDER BY v.nombre ASC"
+                    )
+                    ->setParameter('fecha_inicio', '2020-04-01')
+                    ->setParameter('fecha_fin', '2020-10-10')
+                    ->getResult();
+    }
+
     // /**
     //  * @return Venta[] Returns an array of Venta objects
     //  */
