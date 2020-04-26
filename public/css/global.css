@@ -31,6 +31,10 @@ a.nav-link {
   padding-bottom: 20px;
 }
 
+.my-form-class .row .col-lg-8 > div {
+  padding-bottom: 20px;
+}
+
 .my-form-class ul {
   list-style-type: none;
   padding: 0px;
@@ -71,10 +75,18 @@ th {
 }
 
 .btn-danger {
-  color: #bd2130;
+  color: #bd2130 !important;
   background-color: #28a74500;
   padding-left: 13px;
   padding-right: 13px;
+}
+
+.btn-danger:hover {
+  color: #fff !important;
+}
+
+.total {
+  border-top: 2px solid #80808047;
 }
 
 .btn-info {

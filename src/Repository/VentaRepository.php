@@ -51,6 +51,26 @@ class VentaRepository extends ServiceEntityRepository
                     ->getResult();
     }
 
+    /**
+     * Ventas por mes
+     */
+    public function findCantidadVentasMensual()
+    {   
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = ' SELECT count(id) as cantidad, fecha
+                 FROM cosmeticos.venta
+                 where enabled = 1
+                 group by fecha ';
+                 
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+     
+        return $stmt->fetchAll();
+    }
+
+
+
     // /**
     //  * @return Venta[] Returns an array of Venta objects
     //  */

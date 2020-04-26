@@ -132,6 +132,19 @@ class Venta
         return $total;
     }
 
+    public function getTotalCostoVenta() 
+    {   
+        $total = 0;
+        $productos = $this->productos_venta->toArray();
+
+        foreach($productos as $producto)
+        {
+            $total += $producto->getPrecioCosto() * $producto->getCantidad() ;
+        }
+
+        return $total;
+    }
+
     public function getEnabled(): ?bool
     {
         return $this->enabled;

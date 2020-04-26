@@ -18,6 +18,7 @@
         {{ block('form_widget_simple') }}
     </div>
 {% endblock %}
+ 
 
 {% block body %}
 
@@ -35,14 +36,25 @@
         </div>
         <div class="card-body">
             {{ form_start(form, {attr: {class: 'my-form-class'} }) }}
-            {{ form_row(form.nombre) }}
-            {{ form_row(form.codigo) }}
-            {{ form_row(form.descripcion) }}
-            {{ form_row(form.precio_costo) }}
-            {{ form_row(form.precio_venta) }}
-            {{ form_row(form.stock) }}
-            {{ form_row(form.submit) }}
-            {{ form_end(form) }}
+            <div class="row">
+                <div class="col-lg-8">
+                    {{ form_row(form.nombre) }}
+                    {{ form_row(form.codigo) }}
+                    {{ form_row(form.descripcion) }}
+                    {{ form_row(form.precio_costo) }}
+                    {{ form_row(form.precio_venta) }}
+                    {{ form_row(form.stock) }}
+                </div>
+                <div class="col-lg-4">
+                    {{ form_row(form.submit) }} 
+                    <a class='btn btn-danger btn-block mt-3' onclick="window.history.back()" > Cancelar </a>
+                    
+                </div>
+                {{ form_end(form) }}
+            </div>
+            
+            
+            
         </div>
     </div>
 </div>

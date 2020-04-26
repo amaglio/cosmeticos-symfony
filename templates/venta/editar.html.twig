@@ -6,146 +6,142 @@
 {% block body %}
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ 
 
-<div class="alert alert-info" role="alert">
-    <h5><i class="fas fa-edit" aria-hidden="true"></i> &nbsp;  Editar la venta </h5>
-</div>
+<div class="example-wrapper" >
 
-{% for message in app.flashes('success') %}
-    <div class="alert alert-success">
-        {{ message }}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <a  onclick="return confirm('Seguro desea eliminar la venta ? No se puede deshacer.')" href="{{ path('eliminar_venta',{id: id} ) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar la venta"> <i class="fas fa-trash"></i> Eliminar la venta  </a>
+        </div>  
     </div>
-{% endfor %}
-
-<div class="row">
-    <div class="col-md-4">
-        <div class="card ">
-            <div class="card-header">
-                 <h5 class="card-title">Editar venta</h5>
-            </div>
-            <div class="card-body">
-               
-                {{ form_start(form, {attr: {class: 'my-form-class'} }) }} 
-                {{ form_row(form.nombre)   }}
-                {# {{ form_row(form.nombre, {attr: { value : '03/03/2020' } })   }} #}
-                {{ form_row(form.fecha, {attr: { value :  "now"|date("Y-m-d") } })  }}
-                {{ form_row(form.email) }}
-                {{ form_row(form.telefono) }} 
-                {{ form_row(form.submit) }}
-                {{ form_end(form) }}
-
-            </div>
-        </div> 
-    </div>
-    <div class="col-md-8"> 
-        <div class="card">
-            <div class="card-header">
-                 <h5 class="card-title">Productos de la venta</h5>
-            </div> 
-                <div class="container">
-                    <div class="col-lg-12" id="buscador-productos">
-
-                        {# <div class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                            <label for="post_type_venta_nombre"><i class="fas fa-search"></i> Buscar producto</label>
-                            </div>
-                            <div>
-                                <input type="text" id="search" name="search" class="form-control" placeholder="Ingrese el nombre o codigo del producto ">
-                            </div>
-                            <!-- /input-group -->
-                        </div>
-                        <ul class="nav" id="side-menu">
-                            <li>
-                                <ul class="nav nav-second-level" id="entitiesNav">
-                                </ul>
-                            </li>
-                        </ul>
-                        <form class="form-inline d-none">
-
-                            <label class="sr-only" for="inlineFormInputName2">Name</label>
-                            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe">
-
-                            <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
-                            
-
-                            <button type="submit" class="btn btn-primary mb-2">Submit</button>
-                        </form> #}
-
-                        {{ form_start(form_producto_venta, { attr: { class: ' form-inline' } } ) }}
-                        
-                        
-                        {{ form_row(form_producto_venta.precio_costo) }}
-                        
-                         <div class="input-group mb-2 mr-sm-2">
-                            <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            </div>
-                            {{ form_row(form_producto_venta.venta_id) }}
-                        </div>
-                        <div class="input-group mb-2 mr-sm-2">
-                            <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fab fa-product-hunt"></i>
-                            </div>
-                            </div>
-                            {{ form_row(form_producto_venta.producto_id) }}
-                        </div>
-                        <div class="input-group mb-1 mr-sm-1">
-                            <div class="input-group-prepend">
-                            <div class="input-group-text">#</div>
-                            </div>
-                            {{ form_row(form_producto_venta.cantidad) }}
-                        </div>
-                        {{ form_row(form_producto_venta.submit) }} 
-                       
-                        {{ form_end(form_producto_venta) }}
-
+    
+    <div class="row pt-3">
+        <div class="col-lg-12">
+            <div class="card ">
+                    <div class="card-header">
+                        <h5 class="card-title">Editar venta</h5>
                     </div>
-                    <div class="col-lg-12"> 
-                        <table class="table table-sm table-striped tabla-producto">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Producto</th>
-                                    <th scope="col" class="text-center"><i class="fas fa-hashtag"  data-toggle="tooltip" data-placement="top" title="Cantidad comprada" ></i></th>
-                                    <th scope="col" class="text-center"><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Precio venta" aria-hidden="true"></i></th>
-                                    <th scope="col" class="text-center"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for producto in productos %}
-                                    <tr>
-                                        <td>{{ producto.getProductoId().getnombre()  }}</td>
-                                        <td class="text-center">{{  producto.getCantidad()  }}</td>
-                                        <td class="text-center">{{  producto.getPrecioVenta()  }}</td>
-                                        <td class="text-center">
-                                            <a onclick="return confirm('Seguro desea eliminar el producto de la venta ? No se puede deshacer.')" href="{{ path('v_eliminar_producto_venta',{id_producto: producto.getProductoId().getId(), id_venta: id } ) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar el producto"> <i class="fas fa-trash" aria-hidden="true"></i>  </a>                                </td>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                    <tr>
-                                        <th class="text-left">
-                                            Total
-                                        </th>
-                                        <td></td>
-                                        <td class="text-center">
-                                            <span class="unidad">$</span> {{ venta.getTotalVenta() }}
-                                        </td>
-                                    <tr>
-                            </tbody>
-                        </table>
-                    </div>     
-                <div>
-            </div>     
-        <div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                
+                                    
+                                        {{ form_start(form, {attr: {class: 'my-form-class'} }) }} 
+                                        {{ form_row(form.nombre)   }}
+                                        {# {{ form_row(form.nombre, {attr: { value : '03/03/2020' } })   }} #}
+                                        {{ form_row(form.fecha, {attr: { value :  "now"|date("Y-m-d") } })  }}
+                                        {{ form_row(form.email) }}
+                                        {{ form_row(form.telefono) }} 
+                                        {{ form_row(form.submit) }}
+                                        {{ form_end(form) }}
+                    
+                                
+                            </div>
+                            <div class="col-md-8"> 
+                                
+                                <div class="container">
+                                    <label  class="required font-weight-bold">Agregar producto a la venta</label>
+                                    <div id="buscador-productos">
+
+
+                                        {{ form_start(form_producto_venta, { attr: { class: ' form-inline' } } ) }}
+                                        
+                                        
+                                        {{ form_row(form_producto_venta.precio_costo) }}
+                                        
+                                        <div class="input-group mb-2 mr-sm-2">
+                                            <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            </div>
+                                            {{ form_row(form_producto_venta.venta_id) }}
+                                        </div>
+                                        <div class="input-group mb-2 mr-sm-2">
+                                            <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fab fa-product-hunt"></i>
+                                            </div>
+                                            </div>
+                                            {{ form_row(form_producto_venta.producto_id) }}
+                                        </div>
+                                        <div class="input-group mb-1 mr-sm-1">
+                                            <div class="input-group-prepend">
+                                            <div class="input-group-text">#</div>
+                                            </div>
+                                            {{ form_row(form_producto_venta.cantidad) }}
+                                        </div>
+                                        {{ form_row(form_producto_venta.submit) }} 
+                                    
+                                        {{ form_end(form_producto_venta) }}
+
+                                    </div>
+                                    <div >
+
+                                        {% if productos %} 
+                                        <table class="table table-sm table-striped tabla-producto">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Producto</th>
+                                                    <th scope="col" class="text-center"><i class="fas fa-hashtag"  data-toggle="tooltip" data-placement="top" title="Cantidad comprada" ></i></th>
+                                                    <th scope="col" class="text-center"><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Precio venta" aria-hidden="true"></i></th>
+                                                    <th class="text-center col-md-1"><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Cantidad x Precio venta"></i> * <i class="fas fa-hashtag"  data-toggle="tooltip" data-placement="top" title="Cantidad comprada" ></i> </th>
+                                                    <th class="text-center col-md-1"><i class="fas fa-coins" data-toggle="tooltip" data-placement="top" title="Precio costo"></i> </th>
+                                                    <th class="text-center col-md-1"><i class="fas fa-hand-holding-usd" data-toggle="tooltip" data-placement="top" title="Ganancia $"></i></th>
+                                                    <th class="text-center col-md-1"><i class="fas fa-percentage" data-toggle="tooltip" data-placement="top" title="Ganancia %"></i></th>
+                                                    <th scope="col" class="text-center"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for producto in productos %}
+                                                    <tr>
+                                                        <td>{{ producto.getProductoId().getnombre()  }}</td>
+                                                        <td class="text-center">{{  producto.getCantidad()  }}</td>
+                                                        <td class="text-center">{{  producto.getPrecioVenta()  }}</td>
+                                                        <td class="text-center bk-grey"><span class="unidad">$</span> {{ producto.getPrecioVenta() *  producto.getCantidad()   }}</td>
+                                                        <td class="text-center"><span class="unidad">$</span> {{ producto.getPrecioCosto() }}</td> 
+                                                        <td class="text-center"><span class="unidad">$</span> {{ producto.getPrecioVenta() - producto.getPrecioCosto()   }}</td>
+                                                        <td class="text-center">{{ (( producto.getPrecioVenta() - producto.getPrecioCosto() ) * 100 / producto.getPrecioCosto()) |round(2, 'floor') }}%</td>
+                                                        <td class="text-center">
+                                                            <a onclick="return confirm('Seguro desea eliminar el producto de la venta ? No se puede deshacer.')" href="{{ path('v_eliminar_producto_venta',{id_producto: producto.getProductoId().getId(), id_venta: id } ) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar el producto"> <i class="fas fa-trash" aria-hidden="true"></i>  </a>                                </td>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                    <tr class="total">
+                                                        <th class="text-left">
+                                                            Total
+                                                        </th>
+                                                        <td colspan="2"></td>
+                                                        <th class="text-center">
+                                                            <span class="unidad">$</span> {{ venta.getTotalVenta() }}
+                                                        </th>
+                                                        <td class="text-center"> <span class="unidad">$</span> {{ venta.getTotalCostoVenta() }} </td>
+                                                        <td class="text-center"> <span class="unidad">$</span> {{ venta.getTotalVenta() - venta.getTotalCostoVenta() }} </td>
+                                                        <td class="text-center"> {{ ( ( venta.getTotalVenta() - venta.getTotalCostoVenta() ) * 100 / venta.getTotalCostoVenta()) |round(2, 'floor')  }}% </td>
+                                                        <td  ></td>
+                                                    <tr>
+                                            </tbody>
+                                        </table>
+                                        {% endif %}
+                                    </div>     
+                                <div>
+                            
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
     </div>
-     
+
 </div>
-
 <!-- jQuery is necessary -->
-
-
 
 {% block javascripts %}
     {{ parent() }}
@@ -154,10 +150,7 @@
     <script type="text/javascript" src="{{ asset('js/venta.js') }}">  </script>
     <script type="text/javascript" src="{{ asset('js/editar-venta.js') }}">  </script>
 {% endblock %} 
-
-{# <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
-<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/jquery-ui.js"></script>  #}
-
+ 
  
 
 {% endblock %}

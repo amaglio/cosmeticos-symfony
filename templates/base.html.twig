@@ -32,7 +32,7 @@
                             <a class="nav-link {{ (app.request.pathinfo matches '{^/ventas*}') ? 'active' : '' }} " href="{{ path('ventas') }}">Ventas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (app.request.pathinfo == '/reportes') ? 'active' : '' }} " href="{{ path('ventas') }}">Reportes</a>
+                            <a class="nav-link {{ (app.request.pathinfo == '/reporte') ? 'active' : '' }} " href="{{ path('reporte') }}">Reportes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ (app.request.pathinfo == '/salir') ? 'active' : '' }} " href="#">Salir</a>

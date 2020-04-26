@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ReporteController!{% endblock %}
+
+{% block body %}
+ 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+
+<div class="example-wrapper">
+
+    <div class="row"> 
+        <div class="col-lg 6">
+            <div class="card ">
+                <div class="card-header">
+                    <h5 class="card-title">Ventas por dia </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="cantVentasPorDia" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg 6">
+            <div class="card ">
+                <div class="card-header">
+                    <h5 class="card-title">Ventas por dia </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="cantProductosVendidos" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+         
+    <div> 
+</div>
+    
+    <script type="text/javascript" >
+
+        
+        
+        // Ventas por dia 
+        var vpd = document.getElementById('cantVentasPorDia').getContext('2d');
+        var ventasPorDia = new Chart(vpd, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        data: {{ cantidad_ventas }},
+                        label: 'Cantidad de ventas', 
+                    } ],
+                    labels: {{ fechas |raw }}  
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            id: 'left-y-axis',
+                            type: 'linear', 
+                        } ]
+                }
+            }
+
+        }); 
+
+       
+        // Productos vendidos
+        var cpv = document.getElementById('cantProductosVendidos').getContext('2d');
+        var myBarChart = new Chart(cpv, {
+            type: 'bar',
+            data: {
+                labels: {{ cantidad_productos }},
+                datasets: [{
+                        data:  {{ productos |raw }}, 
+                        backgroundColor: "#3e95cd",
+                    } 
+                ]
+            },
+            options:  {
+                    title: {
+                        display: false 
+                    },
+                    backgroundColor:'#cfcfcf',
+                            scales: {
+                        xAxes: [{ stacked: true }],
+                        yAxes: [{ stacked: true }]
+                        }
+            }
+        });
+
+
+    </script>
+
+{% endblock %}

@@ -41,7 +41,7 @@ class PostType extends AbstractType
             ]) 
             ->add('submit', SubmitType::class, [
                 'label' => 'Guardar',
-                'attr' => ['class' => 'btn btn-info text-center form-control'],
+                'attr' => ['class' => 'btn btn-info btn-xs text-center form-control'],
             ]); 
     }
 

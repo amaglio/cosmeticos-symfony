@@ -28,4 +28,23 @@ class ProductoRepository extends ServiceEntityRepository
                     ->setParameter('str', '%'.$string.'%')
                     ->getResult();
     }
+
+     /**
+     * Ventas por mes
+     */
+    public function findTotalProductosVendidos()
+    {   
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '    SELECT p.nombre, p.id, sum(cantidad) as cantidad
+                    FROM cosmeticos.producto_venta pv
+                        JOIN producto p ON p.id = pv.producto_id_id
+                        JOIN venta v ON v.id = pv.venta_id_id 
+                    GROUP BY pv.producto_id_id ';
+                 
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+     
+        return $stmt->fetchAll();
+    }
 }

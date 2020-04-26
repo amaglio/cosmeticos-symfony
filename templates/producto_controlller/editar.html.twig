@@ -27,32 +27,42 @@
             {{ message }}
         </div>
     {% endfor %}
-
+    
     <div class="row">
         <div class="col-lg-12">
-            <a href="{{ path('v_crear_producto') }}" class="btn btn-danger btn-s"> <i class="fas fa-remove"></i> Eliminar producto </a> 
-
+            <a  onclick="return confirm('Seguro desea eliminar el producto ? No se puede deshacer.')" href="{{ path('eliminar_producto',{id: id} ) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar el producto"> <i class="fas fa-trash"></i> Eliminar producto  </a>
         </div>  
     </div>
 
-    <div class="row" style="padding-top:20px">
+    <div class="row  pt-3" >
         <div class="col-lg-12">
             <div class="card ">
-        <div class="card-header">
-            <h5 class="card-title">Editar producto</h5>
-        </div>
-        <div class="card-body">
+                <div class="card-header">
+                    <h5 class="card-title">Editar producto</h5>
+                </div>
+                <div class="card-body">
             {{ form_start(form, {attr: {class: 'my-form-class'} }) }}
-            {{ form_row(form.nombre) }}
-            {{ form_row(form.codigo) }}
-            {{ form_row(form.descripcion) }}
-            {{ form_row(form.precio_costo) }}
-            {{ form_row(form.precio_venta) }}
-            {{ form_row(form.stock) }}
-            {{ form_row(form.submit) }}
-            {{ form_end(form) }}
+            <div class="row">
+                <div class="col-lg-8">
+                    {{ form_row(form.nombre) }}
+                    {{ form_row(form.codigo) }}
+                    {{ form_row(form.descripcion) }}
+                    {{ form_row(form.precio_costo) }}
+                    {{ form_row(form.precio_venta) }}
+                    {{ form_row(form.stock) }}
+                </div>
+                <div class="col-lg-4">
+                    {{ form_row(form.submit) }} 
+                    <a class='btn btn-danger btn-block mt-3' onclick="window.history.back()" > Cancelar </a>
+                    
+                </div>
+                {{ form_end(form) }}
+            </div>
+            
+            
+            
         </div>
-    </div>
+            </div>
         </div>  
     </div>
 
