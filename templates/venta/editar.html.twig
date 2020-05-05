@@ -16,6 +16,12 @@
         </div>
     {% endfor %}
 
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <div class="row">
         <div class="col-lg-12">
             <a  onclick="return confirm('Seguro desea eliminar la venta ? No se puede deshacer.')" href="{{ path('eliminar_venta',{id: id} ) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar la venta"> <i class="fas fa-trash"></i> Eliminar la venta  </a>
@@ -63,7 +69,9 @@
                                             </div>
                                             </div>
                                             {{ form_row(form_producto_venta.venta_id) }}
+
                                         </div>
+                                        
                                         <div class="input-group mb-2 mr-sm-2">
                                             <div class="input-group-prepend">
                                             <div class="input-group-text">
@@ -71,12 +79,18 @@
                                             </div>
                                             </div>
                                             {{ form_row(form_producto_venta.producto_id) }}
+                                            <div id="stock_procuto">
+                                                
+                                            </div>
                                         </div>
                                         <div class="input-group mb-1 mr-sm-1">
                                             <div class="input-group-prepend">
                                             <div class="input-group-text">#</div>
                                             </div>
                                             {{ form_row(form_producto_venta.cantidad) }}
+                                         
+                                            
+                                          
                                         </div>
                                         {{ form_row(form_producto_venta.submit) }} 
                                     
@@ -141,7 +155,9 @@
     </div>
 
 </div>
-<!-- jQuery is necessary -->
+
+{% endblock %} 
+
 
 {% block javascripts %}
     {{ parent() }}
@@ -151,6 +167,3 @@
     <script type="text/javascript" src="{{ asset('js/editar-venta.js') }}">  </script>
 {% endblock %} 
  
- 
-
-{% endblock %}

@@ -85,6 +85,12 @@ th {
   color: #fff !important;
 }
 
+#stock_procuto {
+  padding-left: 10px;
+  font-size: 20px;
+  color: #117a8b;
+}
+
 .total {
   border-top: 2px solid #80808047;
 }

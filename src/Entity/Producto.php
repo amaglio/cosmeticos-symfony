@@ -155,4 +155,9 @@ class Producto
     {
         return $this->nombre;
     }
+
+    public function isStock($cantidad)
+    {
+       return ( $this->stock >= $cantidad ?  true : false) ;
+    }
 }

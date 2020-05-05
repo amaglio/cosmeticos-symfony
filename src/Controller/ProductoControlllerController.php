@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Producto; 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route; 
-use App\FormCrear\PostType; 
+use App\FormCrear\FormProducto; 
 use Symfony\Component\HttpFoundation\Request;  
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -41,7 +41,7 @@ class ProductoControlllerController extends AbstractController
     {
         $producto = new Producto();
         
-        $form = $this->createForm(PostType::class, $producto);
+        $form = $this->createForm(FormProducto::class, $producto);
 
         $form->handleRequest($request);
 
@@ -89,7 +89,7 @@ class ProductoControlllerController extends AbstractController
             );
         }
 
-        $form = $this->createForm(PostType::class, $producto);
+        $form = $this->createForm(FormProducto::class, $producto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) 
@@ -159,6 +159,26 @@ class ProductoControlllerController extends AbstractController
       
     }   
 
+
+     /**
+     * @Route("/productos/traer/stock/{id}", name="find_stock")
+     * Productos JSON
+     */
+    public function find_stock($id)
+    {   
+        $entityManager = $this->getDoctrine()->getManager();
+        $producto = $entityManager->getRepository(Producto::class)->find($id);
+
+        if (!$producto) {
+            throw $this->createNotFoundException(
+                'There are no producto with the following id: ' . $id
+            );
+        }
+         
+
+        return $this->json($producto->getStock());
+      
+    } 
     
     /**
      * Creates a new ActionItem entity.

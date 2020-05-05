@@ -7,8 +7,8 @@ use App\Entity\Producto;
 use App\Entity\ProductoVenta; 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\PostTypeVenta\PostTypeVenta; 
-use App\PostTypeProductoVenta\PostTypeProductoVenta; 
+use App\FormCrearVenta\FormVenta; 
+use App\FormCrearVentaProducto\FormVentaProducto; 
 use Symfony\Component\HttpFoundation\Request; 
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -68,7 +68,7 @@ class VentaController extends AbstractController
     public function v_crear_venta(Request $request)
     {
         $venta = new Venta();
-        $form = $this->createForm(PostTypeVenta::class, $venta);
+        $form = $this->createForm(FormVenta::class, $venta);
 
         $form->handleRequest($request);
 
@@ -104,9 +104,9 @@ class VentaController extends AbstractController
     
     /**
      * @Route("/ventas/editar/{id}", name="v_editar_venta"  )
-     * @ParamConverter("form", class="App\PostTypeProductoVenta\PostTypeProductoVenta")
+     * @ParamConverter("form", class="App\FormVentaProducto\FormVentaProducto")
      */
-    public function v_editar_venta( Request $request, $id, PostTypeProductoVenta $form = NULL )
+    public function v_editar_venta( Request $request, $id, FormVentaProducto $form = NULL )
     {   
   
         $entityManager = $this->getDoctrine()->getManager(); 
@@ -117,7 +117,7 @@ class VentaController extends AbstractController
                 'There are no producto with the following id: ' . $id
             );
         } 
-        $form_venta = $this->createForm(PostTypeVenta::class, $venta);
+        $form_venta = $this->createForm(FormVenta::class, $venta);
         $form_venta->handleRequest($request);
         
         // Modifico la venta
@@ -158,7 +158,7 @@ class VentaController extends AbstractController
             //     echo "etreo";
             // } 
             
-            $form_producto_venta = $this->createForm(PostTypeProductoVenta::class, $productoVenta);
+            $form_producto_venta = $this->createForm(FormVentaProducto::class, $productoVenta);
             $form_producto_venta->handleRequest($request);
 
             // Ingreso un producto a la venta
@@ -171,16 +171,34 @@ class VentaController extends AbstractController
                 $producto_id = $request->request->get('post_type_producto_venta')["producto_id"];
                 $repository = $this->getDoctrine()->getRepository(Producto::class);
                 $producto = $repository->findOneBy(['id' => $producto_id]);
+
+                $cantidad = $request->request->get('post_type_producto_venta')["cantidad"];
                 
-                $productoVenta->setPrecioCosto($producto->getPrecioCosto());
-                $productoVenta->setPrecioVenta($producto->getPrecioVenta()); 
+                if( $producto->isStock($cantidad) ) // Hay stock
+                {
+                    $productoVenta->setPrecioCosto($producto->getPrecioCosto());
+                    $productoVenta->setPrecioVenta($producto->getPrecioVenta()); 
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($producto_venta);
+                    $entityManager->flush(); 
 
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($producto_venta);
-                $entityManager->flush(); 
+                    $producto->setStock( $producto->getStock() - $cantidad );
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($producto);
+                    $entityManager->flush(); 
 
-                $this->addFlash('success', 'Producto agregado exitosamente');
+                    // $producto->setStock( $producto->getStock() - $cantidad );
+                    // $entityManager = $this->getDoctrine()->getManager();
+                    // $entityManager->persist($producto);
+                    // $entityManager->flush(); 
+                    $this->addFlash('success', 'Producto agregado exitosamente');
+                }
+                else
+                {
+                    $this->addFlash('danger', 'El producto no tiene stock suficiente');
 
+                } 
+                 
                 return $this->redirectToRoute('v_editar_venta', array(
                     'id' => $id
                 )); 
@@ -193,7 +211,7 @@ class VentaController extends AbstractController
                 $ProductoVenta->setVentaId($venta); 
                 $ProductoVenta->setPrecioVenta(0);
                 $ProductoVenta->setPrecioCosto(0);
-                $formProductoVenta = $this->createForm(  PostTypeProductoVenta::class, 
+                $formProductoVenta = $this->createForm(  FormVentaProducto::class, 
                                                          $ProductoVenta 
                                                     );
                 
@@ -278,7 +296,7 @@ class VentaController extends AbstractController
         $productoVenta->setPrecioCosto($precio_costo);
         $productoVenta->setPrecioVenta($precio_venta);
         
-        $form = $this->createForm(PostTypeProductoVenta::class, $productoVenta);
+        $form = $this->createForm(FormVentaProducto::class, $productoVenta);
          
 
         if ($form->isSubmitted() && $form->isValid()) 
@@ -308,7 +326,7 @@ class VentaController extends AbstractController
     public function v_crear_producto_venta(Request $request)
     {
         $productoVenta = new ProductoVenta();
-        $form = $this->createForm(PostTypeProductoVenta::class, $productoVenta);
+        $form = $this->createForm(FormVentaProducto::class, $productoVenta);
 
         $form->handleRequest($request);
 
@@ -362,7 +380,7 @@ class VentaController extends AbstractController
         // $productoVenta->setPrecioCosto($precio_costo);
         // $productoVenta->setPrecioVenta($precio_venta);
         
-        // $form = $this->createForm(PostTypeProductoVenta::class, $productoVenta);
+        // $form = $this->createForm(FormVentaProducto::class, $productoVenta);
 
         // $form->handleRequest($request);
 
@@ -433,7 +451,7 @@ class VentaController extends AbstractController
 
         
         // //$ProductoVenta = new ProductoVenta();
-        // $formProductoVenta = $this->createForm(     PostTypeProductoVenta::class, 
+        // $formProductoVenta = $this->createForm(     FormVentaProducto::class, 
         //                                             $productoVenta, 
         //                                             array(
         //                                                 'action' => $this->generateUrl('agregar_producto_venta') 
@@ -462,7 +480,7 @@ class VentaController extends AbstractController
         //var_dump($request->query);
         
         /*
-        $formProductoVenta = $this->createForm(PostTypeProductoVenta::class, $ProductoVenta, array(
+        $formProductoVenta = $this->createForm(FormVentaProducto::class, $ProductoVenta, array(
             'action' => $this->generateUrl('agregar_producto_venta') 
         ));
 

@@ -1,5 +1,24 @@
 $(function() {
-    $('#search').val('');
+  $( "#post_type_producto_venta_producto_id" ).change(function() {
+    
+    
+
+    $.ajax({
+        url: '/productos/traer/stock/'+this.value, 
+        dataType: 'JSON',
+        type: 'POST',
+        success: function(data)
+        {
+          $('#stock_procuto').html("<i class='fas fa-cart-plus'></i> "+data);                        
+        }, 
+        error: function(x, status, error)
+        {
+          alert(error);
+        }
+    });  
+
+  });
+
 });
 
 $('#search').autocomplete({
@@ -54,12 +73,4 @@ $('#search').autocomplete({
 
 });
 
-function cerrar_opcion()
-{
-  //  $('input[id="post_type_producto_venta_precio_costo"]').val('');               
-  //  $('input[id="post_type_producto_venta_precio_venta"]').val('');
-  //  $('input[id="post_type_producto_venta_cantidad"]').val('');
-  //  $('#producto-elegido').remove();
-  //  $( "#cerrar-producto-elegido" ).remove();
-  //  $('#post_type_producto_venta').hide();
-}
+ 

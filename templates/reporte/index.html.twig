@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ReporteController!{% endblock %}
+{% block title %}Reportes de ventas{% endblock %}
 
 {% block body %}
  
@@ -22,7 +22,7 @@
         <div class="col-lg 6">
             <div class="card ">
                 <div class="card-header">
-                    <h5 class="card-title">Ventas por dia </h5>
+                    <h5 class="card-title">Productos vendidos </h5>
                 </div>
                 <div class="card-body">
                     <canvas id="cantProductosVendidos" width="400" height="400"></canvas>
@@ -30,7 +30,7 @@
             </div>
         </div>
          
-    <div> 
+    <div>  
 </div>
     
     <script type="text/javascript" >
@@ -63,25 +63,22 @@
         // Productos vendidos
         var cpv = document.getElementById('cantProductosVendidos').getContext('2d');
         var myBarChart = new Chart(cpv, {
-            type: 'bar',
-            data: {
-                labels: {{ cantidad_productos }},
-                datasets: [{
-                        data:  {{ productos |raw }}, 
-                        backgroundColor: "#3e95cd",
-                    } 
+                type: 'horizontalBar',
+                data: {
+                labels: {{ productos |raw }},
+                datasets: [
+                    {  
+                    data: {{ cantidad_productos }}
+                    }
                 ]
-            },
-            options:  {
-                    title: {
-                        display: false 
-                    },
-                    backgroundColor:'#cfcfcf',
-                            scales: {
-                        xAxes: [{ stacked: true }],
-                        yAxes: [{ stacked: true }]
-                        }
-            }
+                },
+                options: {
+                legend: { display: false },
+                title: {
+                    display: false,
+                    text: 'Predicted world population (millions) in 2050'
+                }
+                }
         });
 
 

@@ -1,5 +1,5 @@
 <?php   
-namespace App\PostTypeProductoVenta;
+namespace App\FormCrearVentaProducto;
 
 use App\Entity\ProductoVenta;
 use App\Entity\Venta;
@@ -7,14 +7,13 @@ use App\Entity\Producto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
- use Symfony\Component\Form\Extension\Core\Type\TextType; 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType; 
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 
-class PostTypeProductoVenta extends AbstractType
+class FormVentaProducto extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -27,7 +26,9 @@ class PostTypeProductoVenta extends AbstractType
             ->add('producto_id',EntityType::class, [
                 'class' => Producto::class,
                 'label' => false,
-                'attr' => [   'class' => 'form-control' ] 
+                'placeholder' => 'Seleccione un producto',
+                'attr' => [     'class' => 'form-control'
+                          ] 
             ])
             ->add('precio_costo', HiddenType::class, [
                 'attr' => ['readonly' => false ],
