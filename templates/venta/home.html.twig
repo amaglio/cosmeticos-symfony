@@ -59,7 +59,7 @@
             <div class="col-lg-8 ">
                 <div class="card ">
                     <div class="card-header">
-                        <h5 class="card-title">Ultimas ventas</h5>
+                        <h5 class="card-title">Últimas ventas</h5>
                     </div>
                     <div class="card-body">
                         {% if ventas %}
@@ -133,6 +133,10 @@
                                 </tbody>
                             </table>
                         </div>
+                        {% else %}
+                            <div class="alert alert-success">
+                                Aún no tiene ventas cargadas.
+                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -140,7 +144,7 @@
 
             <!-- Ultimos productos -->
             <div class="col-lg-4 ">
-                <div class="row pb-3">
+                {# <div class="row pb-3">
                     <div class="col-lg-6">
                         <div class="card border-info mx-sm-1 p-3">
                             <div class="card border-info shadow text-info p-3 my-card" ><span class="fa fa-hashtag" aria-hidden="true"></span></div>
@@ -155,7 +159,7 @@
                             <div class="text-info text-center mt-2"><h3>$2000</h3></div>
                         </div>
                     </div>
-                </div>
+                </div> #}
                 <div class="card ">
                     <div class="card-header">
                         <h5 class="card-title">Ultimos productos</h5>
@@ -187,6 +191,10 @@
                                     </tbody>
                                 </table>
                             </div>     
+                         {% else %}
+                            <div class="alert alert-success">
+                                Aún no tiene productos cargados.
+                            </div>
                         {% endif %}
                     </div>
                 </div>

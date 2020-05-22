@@ -1,5 +1,5 @@
 <?php   
-namespace App\FormCrearVentaProducto;
+namespace App\FormVentaProducto;
 
 use App\Entity\ProductoVenta;
 use App\Entity\Venta;

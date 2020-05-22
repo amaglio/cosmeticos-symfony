@@ -36,7 +36,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 
                                     
                                         {{ form_start(form, {attr: {class: 'my-form-class'} }) }} 
@@ -50,7 +50,7 @@
                     
                                 
                             </div>
-                            <div class="col-md-8"> 
+                            <div class="col-md-9"> 
                                 
                                 <div class="container">
                                     <label  class="required font-weight-bold">Agregar producto a la venta</label>
@@ -165,5 +165,12 @@
     <script type="text/javascript" src="{{ asset('js/jquery-ui.js') }}">  </script>
     <script type="text/javascript" src="{{ asset('js/venta.js') }}">  </script>
     <script type="text/javascript" src="{{ asset('js/editar-venta.js') }}">  </script>
-{% endblock %} 
+     
+         <script type="text/javascript">
+            $(document).ready(function(){
+                $('#form_venta_producto_producto_id').combobox();
+            });
+        </script>
+
+ {% endblock %} 
  

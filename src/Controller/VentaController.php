@@ -8,7 +8,7 @@ use App\Entity\ProductoVenta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\FormCrearVenta\FormVenta; 
-use App\FormCrearVentaProducto\FormVentaProducto; 
+use App\FormVentaProducto\FormVentaProducto; 
 use Symfony\Component\HttpFoundation\Request; 
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -166,14 +166,20 @@ class VentaController extends AbstractController
             if ($form_producto_venta->isSubmitted() && $form_producto_venta->isValid()) 
             {   
                 $producto_venta = $form_producto_venta->getData();
+
+            
+ 
                 $productoVenta->setVentaId($venta);
                 
-                $producto_id = $request->request->get('post_type_producto_venta')["producto_id"];
+                $producto_id = $request->request->get('form_venta_producto')["producto_id"];
+                echo "producto_id: ".$producto_id;
                 $repository = $this->getDoctrine()->getRepository(Producto::class);
                 $producto = $repository->findOneBy(['id' => $producto_id]);
 
-                $cantidad = $request->request->get('post_type_producto_venta')["cantidad"];
+                $cantidad = $request->request->get('form_venta_producto')["cantidad"];
                 
+                echo "Cantidad: ".$cantidad;
+            
                 if( $producto->isStock($cantidad) ) // Hay stock
                 {
                     $productoVenta->setPrecioCosto($producto->getPrecioCosto());
