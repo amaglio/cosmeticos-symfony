@@ -27,7 +27,7 @@ class VentaController extends AbstractController
             ['enabled' => 1 ] 
         ); 
 
-        $ventas = $repository->findByDate(date("Y/m/d"),date("Y/m/d")); 
+        // $ventas = $repository->findByDate(date("Y/m/d"),date("Y/m/d")); 
 
         $repository = $this->getDoctrine()->getRepository(Producto::class);
 

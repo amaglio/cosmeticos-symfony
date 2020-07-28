@@ -25,6 +25,7 @@
     {% endfor %}
     
     <a href="{{ path('v_crear_producto') }}" class="btn btn-info btn-s"> <i class="fas fa-plus"></i> Cargar producto </a> 
+    <a href="{{ path('productos_pdf') }}" class="btn btn-info btn-s"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Catalogo pdf </a> 
 
     {% if productos %}
     <div class="table-responsive" style="padding-top:40px">
@@ -33,7 +34,8 @@
                 <tr>
                     <th>Codigo</th> 
                     <th>Nombre</th>
-                    <th><i class="fas fa-coins" data-toggle="tooltip" data-placement="top" title="Precio costo"></i></th>
+                    <th style="width:180px"> </th>
+                    <th><i class="fas fa-coins" data-toggle="tooltip" data-placement="top" title="Precio costo"></i></th> 
                     <th><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Precio venta"></th>
                     <th><i class="fas fa-hand-holding-usd" data-toggle="tooltip" data-placement="top" title="Ganancia en $"></i></th>
                     <th><i class="fas fa-percentage" data-toggle="tooltip" data-placement="top" title="Ganancia %"></i></th>
@@ -46,6 +48,9 @@
                 <tr>
                     <td>{{ producto.getCodigo()  }} </td>
                     <td class="text-left" >{{ producto.getNombre() }} </td> 
+                    <td class="text-left" style="width:180px">
+                        <img  style="width:200px; height:200px" src="{{ absolute_url(asset('uploads/imagenes/' ~ producto.getImagen() )) }}" alt="">
+                    </td>
                     <td><span class="unidad">$</span> {{ producto.getPrecioCosto() }} </td> 
                     <td><span class="unidad">$</span> {{ producto.getPrecioVenta() }} </td>
                     <td><span class="unidad">$</span> {{  producto.getPrecioVenta() - producto.getPrecioCosto()   }}</td>

@@ -62,6 +62,11 @@ class Producto
      */
     private $enabled = true;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imagen;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -159,5 +164,17 @@ class Producto
     public function isStock($cantidad)
     {
        return ( $this->stock >= $cantidad ?  true : false) ;
+    }
+
+    public function getImagen(): ?string
+    {
+        return $this->imagen;
+    }
+
+    public function setImagen(?string $imagen): self
+    {
+        $this->imagen = $imagen;
+
+        return $this;
     }
 }

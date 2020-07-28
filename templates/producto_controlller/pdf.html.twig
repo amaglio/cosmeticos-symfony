@@ -1,0 +1,42 @@
+{% block title %} Productos {% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper" id="div_productos" >
+    
+     <table class="table table-stripped " id="productos">
+            <thead>    
+                <tr>
+                    <th>Codigo</th> 
+                    <th>Nombre</th>
+                    <th style="width:180px"> </th>
+                    <th><i class="fas fa-coins" data-toggle="tooltip" data-placement="top" title="Precio costo"></i></th> 
+                    <th><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Precio venta"></th>
+                    <th><i class="fas fa-hand-holding-usd" data-toggle="tooltip" data-placement="top" title="Ganancia en $"></i></th>
+                    <th><i class="fas fa-percentage" data-toggle="tooltip" data-placement="top" title="Ganancia %"></i></th>
+                    <th><i class="fas fa-cart-plus" data-toggle="tooltip" data-placement="top" title="Stock del producto"></i></th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.getCodigo()  }} {{ absolute_url(asset('uploads/imagenes/' ~ producto.getImagen() )) }} </td>
+                    <td class="text-left" >{{ producto.getNombre() }} </td> 
+                    <td class="text-left" style="width:180px">
+                        <img  style="width:200px; height:200px" src="{{ absolute_url(asset('uploads/imagenes/' ~ producto.getImagen() )) }}" alt="">
+                    </td>
+                    <td><span class="unidad">$</span> {{ producto.getPrecioVenta() }} </td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+  
+
+</div> 
+
+
+ 
+{% endblock %}
+ 

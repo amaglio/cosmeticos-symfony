@@ -50,7 +50,10 @@
                     {{ form_row(form.precio_costo) }}
                     {{ form_row(form.precio_venta) }}
                     {{ form_row(form.stock) }}
+                    <img  style="width:200px; height:200px" src="{{ asset('uploads/imagenes/' ~ imagen ) }}" alt="">
+                    {{ form_row(form.imagen) }}
                 </div>
+               
                 <div class="col-lg-4">
                     {{ form_row(form.submit) }} 
                     <a class='btn btn-danger btn-block mt-3' onclick="window.history.back()" > Cancelar </a>

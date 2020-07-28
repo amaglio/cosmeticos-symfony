@@ -9,7 +9,10 @@ use App\FormCrear\FormProducto;
 use Symfony\Component\HttpFoundation\Request;  
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class ProductoControlllerController extends AbstractController  
 {   
@@ -19,6 +22,9 @@ class ProductoControlllerController extends AbstractController
      */
     public function index()
     {   
+        // echo $this->get('kernel')->getProjectDir(); 
+        //echo $this->getParameter('kernel.project_dir');
+ 
         $repository = $this->getDoctrine()->getRepository(Producto::class);
 
         $productos = $repository->findBy(
@@ -37,7 +43,7 @@ class ProductoControlllerController extends AbstractController
     /**
      * @Route("/productos/crear", name="v_crear_producto")
      */
-    public function v_crear_producto(Request $request)
+    public function v_crear_producto(Request $request, SluggerInterface $slugger)
     {
         $producto = new Producto();
         
@@ -47,9 +53,31 @@ class ProductoControlllerController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
             $task = $form->getData();
+
+            $imagenFile = $form->get('imagen')->getData();
+
+            if ($imagenFile) {
+                $originalFilename = pathinfo($imagenFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the UR
+              
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imagenFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $imagenFile->move(
+                        $this->getParameter('imagen_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'imagenFilename' property to store the PDF file name
+                // instead of its contents
+                $producto->setImagen($newFilename);
+            }
 
             // ... perform some action, such as saving the task to the database
             // for example, if Task is a Doctrine entity, save it!
@@ -78,7 +106,7 @@ class ProductoControlllerController extends AbstractController
      * @Route("/productos/editar/{id}", name="v_editar_producto")
      */
 
-    public function v_editar_producto( Request $request, $id )
+    public function v_editar_producto( Request $request, $id,SluggerInterface $slugger  )
     {   
         $entityManager = $this->getDoctrine()->getManager();
         $producto = $entityManager->getRepository(Producto::class)->find($id);
@@ -103,6 +131,30 @@ class ProductoControlllerController extends AbstractController
             $producto->setStock($task->getStock());
             $producto->setCodigo($task->getCodigo());
 
+            $imagenFile = $form->get('imagen')->getData();
+
+            if ($imagenFile) {
+                $originalFilename = pathinfo($imagenFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the UR
+              
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imagenFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $imagenFile->move(
+                        $this->getParameter('imagen_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'imagenFilename' property to store the PDF file name
+                // instead of its contents
+                $producto->setImagen($newFilename);
+            }
+
             $entityManager->flush();
             
             $this->addFlash('success', 'Producto editado exitosamente');
@@ -114,7 +166,8 @@ class ProductoControlllerController extends AbstractController
         {
             return $this->render('producto_controlller/editar.html.twig', array(
                 'id' => $id,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'imagen' => $producto->getImagen()
             ));        
         }
     }
@@ -238,6 +291,47 @@ class ProductoControlllerController extends AbstractController
         return $informacionProducto;
     }
 
+    /**
+     * @Route("/productos_pdf", name="productos_pdf")
+     * Productos habilitados
+     */
+    public function productos_pdf()
+    {   
+         // Configure Dompdf according to your needs
+         $pdfOptions = new Options();
+         $pdfOptions->set('defaultFont', 'Arial');
+         
+         // Instantiate Dompdf with our options
+         $dompdf = new Dompdf($pdfOptions);
 
+         $repository = $this->getDoctrine()->getRepository(Producto::class);
 
+         $productos = $repository->findBy(
+             ['enabled' => 1 ] 
+         ); 
+         
+   
+         
+         // Retrieve the HTML generated in our twig file
+         $html = $this->renderView('producto_controlller/pdf.html.twig', [
+             'title' => "Welcome to our PDF Test",
+             'productos' => $productos
+         ]);
+         
+         // Load HTML to Dompdf
+         $dompdf->loadHtml($html);
+         
+         // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+         $dompdf->setPaper('A4', 'portrait');
+ 
+         // Render the HTML as PDF
+         $dompdf->render();
+ 
+         // Output the generated PDF to Browser (force download)
+         $dompdf->stream("mypdf.pdf", [
+             "Attachment" => true
+         ]);
+    }   
+
+    
 }   
