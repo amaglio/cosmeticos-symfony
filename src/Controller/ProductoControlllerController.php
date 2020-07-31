@@ -23,7 +23,7 @@ class ProductoControlllerController extends AbstractController
     public function index()
     {   
         // echo $this->get('kernel')->getProjectDir(); 
-        //echo $this->getParameter('kernel.project_dir');
+          
  
         $repository = $this->getDoctrine()->getRepository(Producto::class);
 
@@ -167,7 +167,8 @@ class ProductoControlllerController extends AbstractController
             return $this->render('producto_controlller/editar.html.twig', array(
                 'id' => $id,
                 'form' => $form->createView(),
-                'imagen' => $producto->getImagen()
+                'imagen' => $producto->getImagen(),
+
             ));        
         }
     }
@@ -298,8 +299,11 @@ class ProductoControlllerController extends AbstractController
     public function productos_pdf()
     {   
          // Configure Dompdf according to your needs
+
+         
          $pdfOptions = new Options();
          $pdfOptions->set('defaultFont', 'Arial');
+         $pdfOptions->set('isRemoteEnabled',true);     
          
          // Instantiate Dompdf with our options
          $dompdf = new Dompdf($pdfOptions);
@@ -309,13 +313,13 @@ class ProductoControlllerController extends AbstractController
          $productos = $repository->findBy(
              ['enabled' => 1 ] 
          ); 
-         
-   
+ 
          
          // Retrieve the HTML generated in our twig file
          $html = $this->renderView('producto_controlller/pdf.html.twig', [
              'title' => "Welcome to our PDF Test",
-             'productos' => $productos
+             'productos' => $productos,
+             'root_path' => $this->getParameter('webDir') 
          ]);
          
          // Load HTML to Dompdf
@@ -333,5 +337,58 @@ class ProductoControlllerController extends AbstractController
          ]);
     }   
 
+     /**
+     * @Route("/productos_pdf_esquema", name="productos_pdf")
+     * Productos habilitados
+     */
+    public function productos_pdf_esquema()
+    {   
+         // Configure Dompdf according to your needs
+
+         
+         $pdfOptions = new Options();
+         $pdfOptions->set('defaultFont', 'Arial');
+         $pdfOptions->set('isRemoteEnabled',true);     
+         
+         // Instantiate Dompdf with our options
+         $dompdf = new Dompdf($pdfOptions);
+
+         $repository = $this->getDoctrine()->getRepository(Producto::class);
+
+         $productos = $repository->findBy(
+             ['enabled' => 1 ] 
+         ); 
+ 
+         
+         // Retrieve the HTML generated in our twig file
+         $html = $this->renderView('producto_controlller/pdf.html.twig', [
+             'title' => "Welcome to our PDF Test",
+             'productos' => $productos,
+             'root_path' => $this->getParameter('webDir') 
+         ]);
+
+         
+         // Load HTML to Dompdf
+         $dompdf->loadHtml($html);
+         
+         // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+         $dompdf->setPaper('A4', 'portrait');
+ 
+         // Render the HTML as PDF
+         $dompdf->render();
+ 
+         // Output the generated PDF to Browser (force download)
+         $dompdf->stream("mypdf.pdf", [
+             "Attachment" => true
+         ]);
+         
+        //  return $this->render('producto_controlller/pdf.html.twig', array(
+        //     'title' => "Welcome to our PDF Test",
+        //     'productos' => $productos,
+        //     'root_path' => $this->getParameter('webDir') 
+
+        // ));      
+        
+    }   
     
 }   

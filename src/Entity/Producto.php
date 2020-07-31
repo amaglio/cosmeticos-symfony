@@ -63,9 +63,9 @@ class Producto
     private $enabled = true;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, options={"default": "sinfoto.jpg"} )
      */
-    private $imagen;
+    private $imagen = "sinfoto.jpg";
 
     public function getId(): ?int
     {

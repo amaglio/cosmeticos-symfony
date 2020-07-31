@@ -1,6 +1,7 @@
-{% block title %} Productos {% endblock %}
+ 
+{{ root_path }}
+{% set url = root_path ~ '/cosmeticos-symfony/public/uploads/imagenes/' %}
 
-{% block body %}
 
 <div class="example-wrapper" id="div_productos" >
     
@@ -10,21 +11,19 @@
                     <th>Codigo</th> 
                     <th>Nombre</th>
                     <th style="width:180px"> </th>
-                    <th><i class="fas fa-coins" data-toggle="tooltip" data-placement="top" title="Precio costo"></i></th> 
                     <th><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Precio venta"></th>
-                    <th><i class="fas fa-hand-holding-usd" data-toggle="tooltip" data-placement="top" title="Ganancia en $"></i></th>
-                    <th><i class="fas fa-percentage" data-toggle="tooltip" data-placement="top" title="Ganancia %"></i></th>
-                    <th><i class="fas fa-cart-plus" data-toggle="tooltip" data-placement="top" title="Stock del producto"></i></th>
-                    <th>Acciones</th>
-                </tr>
+                 </tr>
             </thead>
             <tbody>
             {% for producto in productos %}
-                <tr>
-                    <td>{{ producto.getCodigo()  }} {{ absolute_url(asset('uploads/imagenes/' ~ producto.getImagen() )) }} </td>
+
+                {% set imagen = url ~ producto.getImagen() | trim  %}
+
+                <tr> 
                     <td class="text-left" >{{ producto.getNombre() }} </td> 
                     <td class="text-left" style="width:180px">
-                        <img  style="width:200px; height:200px" src="{{ absolute_url(asset('uploads/imagenes/' ~ producto.getImagen() )) }}" alt="">
+                        {{ imagen }} <br><br>
+                        <img  style="width:200px; height:200px" src="{{ imagen }}" alt="">
                     </td>
                     <td><span class="unidad">$</span> {{ producto.getPrecioVenta() }} </td>
 
@@ -35,8 +34,4 @@
   
 
 </div> 
-
-
- 
-{% endblock %}
  
