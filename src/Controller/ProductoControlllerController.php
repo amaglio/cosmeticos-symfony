@@ -14,8 +14,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-require_once("/var/www/html/cosmeticos-symfony/vendor/tecnickcom/tcpdf/tcpdf.php");
-
 
 class ProductoControlllerController extends AbstractController
 {
@@ -340,6 +338,7 @@ class ProductoControlllerController extends AbstractController
     public function productos_pdf_esquema()
     {   
         // Repositorio
+        set_time_limit(100000);
 
         $repository = $this->getDoctrine()->getRepository(Producto::class);
 
@@ -352,7 +351,8 @@ class ProductoControlllerController extends AbstractController
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
         $pdfOptions->set('isRemoteEnabled', true); 
-        $pdfOptions->set('isHtml5ParserEnabled', true);
+        $pdfOptions->set('isHtml5ParserEnabled', true); 
+        $pdfOptions->set('enable_css_float', true); 
 
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
@@ -381,13 +381,39 @@ class ProductoControlllerController extends AbstractController
         
         //var_dump($productos);
 
+        // LOGO
+        $image = './uploads/imagenes/logo.jpeg';
+        $imageData = base64_encode(file_get_contents($image)); 
+        $logo = 'data:'.mime_content_type($image).';base64,'.$imageData;
+
+        // LOGO IG
+        $logoig = './uploads/imagenes/logo-ig.png';
+        $imageData = base64_encode(file_get_contents($logoig)); 
+        $logoig = 'data:'.mime_content_type($image).';base64,'.$imageData;
+
+        // LOGO
+        $logofb = './uploads/imagenes/logo-fb.png';
+        $imageData = base64_encode(file_get_contents($logofb)); 
+        $logofb = 'data:'.mime_content_type($image).';base64,'.$imageData;
+
+        // LOGO
+        $logowp = './uploads/imagenes/logo-wp.png';
+        $imageData = base64_encode(file_get_contents($logowp)); 
+        $logowp = 'data:'.mime_content_type($image).';base64,'.$imageData;
+  
         // Retrieve the HTML generated in our twig file
         $html =  $this->renderView('producto_controlller/pdf.html.twig', [
             'title' => "Welcome to our PDF Test",
             'productos' => $productos,
             'src' => $src,
+            'logo' => $logo,
+            'logowp' => $logowp,
+            'logofb' => $logofb,
+            'logoig' => $logoig,
             'root_path' => $this->getParameter('webDir')
         ]);
+
+        $html .= "<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>";
 
 
         // Load HTML to Dompdf

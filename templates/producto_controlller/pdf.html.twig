@@ -1,45 +1,103 @@
+<html lang="en">
+	<head>
+		<title>Bootstrap Example</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<style>
  
-{# {{ root_path }} #}
-{% set url = root_path ~ '/cosmeticos-symfony/public/uploads/imagenes/' %}
 
-<style>
-    .imagenpro 
-    {   
-        background-image: url("http://moronmakeuproom.com/moronmakeuproom.com/public/uploads/imagenes/sinfoto.jpg"); 
-        background-repeat: no-repeat; 
-        background-position: center;
-        width:200px;
-        height:200px; 
-    }
-</style>
+			html {
+				margin: 0;
+			}
+			body {
+				font-family: "Roboto", serif;
+				margin: 45mm 8mm 2mm;
+				color:   #283747 ;
+			}
 
-<div class="example-wrapper" id="div_productos" >
-      <table class="table table-stripped " id="productos">
-            <thead>    
-                <tr>
-                    <th>Codigo</th> 
-                    <th>Nombre</th>
-                    <th style="width:180px"> </th>
-                    <th><i class="fas fa-dollar-sign" data-toggle="tooltip" data-placement="top" title="Precio venta"></th>
-                 </tr>
-            </thead>
-            <tbody>
-            {% for producto in productos %}
+    
+      	a:link { color:  #283747 ; font-size: 14px }    
 
-                {% set imagen = url ~ producto.getImagen() | trim  %}
-  
-                <tr> 
-                    <td class="text-left" >{{ producto.getNombre() }} </td> 
-                    <td class="text-left" style="width:180px"> 
-                        <img style="width:200px; height:200px"  src="{{ producto.getImagen() }}" alt="">                      
-                    </td>
-                    <td><span class="unidad">$</span> {{ producto.getPrecioVenta() }} </td>
+		</style>
 
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-  
+		 
 
-</div> 
- 
+	</head>
+	<body>
+
+
+		<div class="container">
+			
+			<div style=" width:100%; text-align:center; height:50px; margin-top:50px;">
+				
+				<img class="img" style="width:150px" src="{{ logo }}" alt=""><br>
+        
+				<table class="table" style="font-size:12px !important; border-top:0px solid white">
+					<tr> 
+						<td  class=" text-center" style="width:33% !important; border-top:0px solid white">
+							<img  style="width:20px; height:20px" src="{{ logoig }}" alt="">
+							<a href="https://www.instagram.com/make_up_nails_room/"> @make_up_nails_room </a>
+						</td>
+						<td class=" text-center" style="width:33% !important; border-top:0px solid white">
+							<img  style="width:20px; height:20px" src="{{ logowp }}" alt="">
+							<a href="https://wa.me/5491122718176">
+								11-2271-8176
+							</a>
+						</td>
+						<td class=" text-center" style="width:33% !important;  vertical-align: middle; border-top:0px solid white">
+							<img   style="width:20px; height:20px" src="{{ logofb }}" alt="">
+							<a href="https://www.facebook.com/makeuproomoeste">/makeuproomoeste</a>
+						</td>
+					</tr>
+				</table>
+	 
+			</div>
+			<div class="container" style="margin-top:180px">
+
+				<table class="table">
+
+					{% set contador = 1 %}
+					{% for producto in productos %}
+
+							{% if contador == 1 %}
+							<tr>
+							{% endif %}
+
+							<td style="width:220px !important; border-top:0px solid white">
+								<table class="table">
+									<tr>
+										<td style="border-top:0px solid white; padding:0px; margin:0px">
+											<img class="img img-responsive" style="width:210px" src="{{ producto.getImagen() }}" alt="Imaagen" />
+										</td>
+									</tr>
+									<tr>
+										<td  style="border-top:0px solid white; text-align:center; padding:0px; margin:0px">
+											<strong>Art.{{ producto.getCodigo() }} - {{ producto.getNombre() }}</strong>
+										</td>
+									</tr>
+									<tr>
+										<td  style="border-top:0px solid white; text-align:center;padding:0px; margin:0px">
+											${{ producto.getPrecioVenta() }}
+										</td>
+									</tr>
+								</table> 
+							</td>
+
+							{% set contador = contador + 1 %}
+
+							{% if contador == 4 %}
+							</tr>
+							{% set contador = 1 %}
+						{% endif %}
+
+					{% endfor %}
+
+				</table>
+			</div>
+		</div>
+
+
+
+	</body>
+</html>
