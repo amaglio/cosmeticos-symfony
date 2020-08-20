@@ -1,0 +1,103 @@
+<html lang="en">
+	<head>
+		<title>Bootstrap Example</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<style>
+ 
+
+			html {
+				margin: 0;
+			}
+			body {
+				font-family: "Roboto", serif;
+				margin: 10mm 8mm 2mm;
+				color:   #283747 ;
+			}
+
+    
+      	a:link { color:  #283747 ; font-size: 14px }    
+
+		</style>
+
+		 
+
+	</head>
+	<body>
+
+
+		<div class="container">
+			
+			<div style=" width:100%; text-align:center; height:50px; margin-top:50px;">
+				
+				<img class="img" style="width:150px" src="{{ absolute_url(asset('uploads/imagenes/logo.jpeg')) }}" alt=""><br>
+        
+				<table class="table" style="font-size:12px !important; border-top:0px solid white">
+					<tr> 
+						<td  class=" text-center" style="width:33% !important; border-top:0px solid white">
+							<img  style="width:20px; height:20px" src="{{ absolute_url(asset('uploads/imagenes/logo-ig.png')) }}" alt="">
+							<a href="https://www.instagram.com/make_up_nails_room/"> @make_up_nails_room </a>
+						</td>
+						<td class=" text-center" style="width:33% !important; border-top:0px solid white">
+							<img  style="width:20px; height:20px" src="{{ absolute_url(asset('uploads/imagenes/logo-wp.png')) }}" alt="">
+							<a href="https://wa.me/5491122718176">
+								11-2271-8176
+							</a>
+						</td>
+						<td class=" text-center" style="width:33% !important;  vertical-align: middle; border-top:0px solid white">
+							<img   style="width:20px; height:20px" src="{{ absolute_url(asset('uploads/imagenes/logo-fb.png')) }}" alt="">
+							<a href="https://www.facebook.com/makeuproomoeste">/makeuproomoeste</a>
+						</td>
+					</tr>
+				</table>
+	 
+			</div>
+			<div class="container" style="margin-top:180px">
+
+				<table class="table">
+
+					{% set contador = 1 %}
+					{% for producto in productos %}
+
+							{% if contador == 1 %}
+							<tr>
+							{% endif %}
+
+							<td style="width:220px !important; border-top:0px solid white">
+								<table class="table">
+									<tr>
+										<td style="border-top:0px solid white; padding:0px; margin:0px">
+											<img class="img img-responsive" style="width:210px" src="{{ absolute_url(asset('uploads/imagenes/' ~ producto.getImagen() )) }}" alt="Imaagen" />
+										</td>
+									</tr>
+									<tr>
+										<td  style="border-top:0px solid white; text-align:center; padding:0px; margin:0px">
+											<strong>Art.{{ producto.getCodigo() }} - {{ producto.getNombre() }}</strong>
+										</td>
+									</tr>
+									<tr>
+										<td  style="border-top:0px solid white; text-align:center;padding:0px; margin:0px">
+											${{ producto.getPrecioVenta() }}
+										</td>
+									</tr>
+								</table> 
+							</td>
+
+							{% set contador = contador + 1 %}
+
+							{% if contador == 4 %}
+							</tr>
+							{% set contador = 1 %}
+						{% endif %}
+
+					{% endfor %}
+
+				</table>
+			</div>
+		</div>
+
+
+
+	</body>
+</html>

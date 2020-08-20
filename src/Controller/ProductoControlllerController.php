@@ -431,67 +431,7 @@ class ProductoControlllerController extends AbstractController
         $dompdf->stream("catalogo.pdf");
     }
 
-    //  public function productos_pdf_esquema()
-        // {   
-        //      // Configure Dompdf according to your needs
-
-        //      $pdfOptions = new Options();
-        //      $pdfOptions->set('defaultFont', 'Arial');
-        //      $pdfOptions->set('isRemoteEnabled',true); 
-
-        //      $pdfOptions->setIsRemoteEnabled(true);   
-
-        //      // Instantiate Dompdf with our options
-        //      $dompdf = new Dompdf($pdfOptions);
-
-        //      $contxt = stream_context_create([ 
-        //         'ssl' => [ 
-        //             'verify_peer' => FALSE, 
-        //             'verify_peer_name' => FALSE,
-        //             'allow_self_signed'=> TRUE
-        //         ] 
-        //     ]);
-        //     $dompdf->setHttpContext($contxt);
-
-        //      $repository = $this->getDoctrine()->getRepository(Producto::class);
-
-        //      $productos = $repository->findBy(
-        //          ['enabled' => 1 ] 
-        //      ); 
-
-
-        //      // Retrieve the HTML generated in our twig file
-        //      $html = $this->renderView('producto_controlller/pdf.html.twig', [
-        //          'title' => "Welcome to our PDF Test",
-        //          'productos' => $productos,
-        //          'root_path' => $this->getParameter('webDir') 
-        //      ]);
-
-
-        //      // Load HTML to Dompdf
-        //      $dompdf->loadHtml($html);
-
-        //      // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
-        //      $dompdf->setPaper('A4', 'portrait');
-
-        //      // Render the HTML as PDF
-        //      $dompdf->render();
-
-        //      $pdf = $dompdf->output();
-
-
-
-        //      // Output the generated PDF to Browser (force download)
-        //      $dompdf->stream("catalogo.pdf");
-
-        //     //  return $this->render('producto_controlller/pdf.html.twig', array(
-        //     //     'title' => "Welcome to our PDF Test",
-        //     //     'productos' => $productos,
-        //     //     'root_path' => $this->getParameter('webDir') 
-
-        //     // ));      
-
-    // }   
+  
 
     /**
      * @Route("/productos_pdf_nuevo", name="productos_pdf_nuevo")
@@ -499,17 +439,15 @@ class ProductoControlllerController extends AbstractController
      */
     public function productos_pdf_nuevo()
     {   
-        $image = './uploads/imagenes/sinfoto.jpg';
+        $repository = $this->getDoctrine()->getRepository(Producto::class);
 
-        echo mime_content_type($image);
-
-        // Read image path, convert to base64 encoding
-        $imageData = base64_encode(file_get_contents($image));
-
-        // Format the image SRC:  data:{mime};base64,{data};
-        $src = 'data:'.mime_content_type($image).';base64,'.$imageData;
-
-        // Echo out a sample image
-        echo '<img src="'.$src.'">';
+        $productos = $repository->findBy(
+            ['enabled' => 1]
+        );
+ 
+        return $this->render('producto_controlller/pdf_view.html.twig', [
+            'controller_name' => 'Productos',
+            'productos' => $productos
+        ]);
     }
 }
