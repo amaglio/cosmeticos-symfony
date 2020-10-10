@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Producto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -442,7 +442,7 @@ class ProductoControlllerController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Producto::class);
 
         $productos = $repository->findBy(
-            ['enabled' => 1]
+            ['enabled' => 1,'catalogo'=> 1  ]
         );
  
         return $this->render('producto_controlller/pdf_view.html.twig', [

@@ -77,7 +77,7 @@
                                                 <th class="border-0 text-center col-md-1"><i class="fas fa-percentage" data-toggle="tooltip" data-placement="top" title="Ganancia %"></i></th>
                                             </tr>
                                         {% for prod in venta.getProductosVenta() %}
-
+                                            
                                             {% set producto = prod.getProductoId() %}
                                             <tr class="text-left">  
                                                 <td class="text-left">{{ producto.getNombre() }}</td>
@@ -98,7 +98,10 @@
                                                 <th class="text-center bk-grey">
                                                     <span class="unidad">$</span> {{ venta.getTotalVenta() }}
                                                 </th>
-                                                <td colspan="3" class="bk-grey"></td>
+                                                <th class="bk-grey"><span class="unidad">$</span> {{ venta.getTotalCostoVenta() }}</th>
+                                                <th class="bk-grey"><span class="unidad">$</span> {{ venta.getTotalVenta() - venta.getTotalCostoVenta() }}</th>
+
+                                                <td colspan="1" class="bk-grey"></td>
                                             <tr>
                                         </table>
                                         

@@ -67,6 +67,16 @@ class Producto
      */
     private $imagen = "sinfoto.jpg";
 
+    /**
+     * @ORM\ManyToOne(targetEntity=CategoriaProducto::class, inversedBy="productos")
+     */
+    private $categoria;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $catalogo= true;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -177,4 +187,30 @@ class Producto
 
         return $this;
     }
+
+    public function getCategoria(): ?CategoriaProducto
+    {
+        return $this->categoria;
+    }
+
+    public function setCategoria(?CategoriaProducto $categoria): self
+    {
+        $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    public function getCatalogo(): ?bool
+    {
+        return $this->catalogo;
+    }
+
+    public function setCatalogo(bool $catalogo): self
+    {
+        $this->catalogo = $catalogo;
+
+        return $this;
+    }
+
+    
 }

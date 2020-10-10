@@ -1,7 +1,9 @@
 <?php   
 namespace App\FormCrear;
 
+use App\Entity\CategoriaProducto;
 use App\Entity\Producto;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -11,7 +13,11 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 class FormProducto extends AbstractType
 {
@@ -21,6 +27,12 @@ class FormProducto extends AbstractType
         $builder
             ->add('nombre', TextType::class, [
                 'label' => 'Nombre del producto',
+                'attr' => ['class' => 'col-md-12 form-control']
+            ]) 
+            ->add('categoria',EntityType::class, [
+                'class' => CategoriaProducto::class,
+                'label' => false,
+                'placeholder' => 'Seleccione una categoria', 
                 'attr' => ['class' => 'col-md-12 form-control']
             ])
             ->add('codigo', IntegerType::class, [
@@ -40,7 +52,12 @@ class FormProducto extends AbstractType
             ])
             ->add('stock', IntegerType::class, [ 
                 'attr' => ['class' => 'col-md-12 form-control']
-            ]) 
+            ])
+            ->add('catalogo', CheckboxType::class, [ 
+                'label' => 'Mostrar en catalogo',  
+                'attr' => ['class' => 'col-md-9 form-check form-control'],
+                'required' => false              
+            ])  
             ->add('imagen', FileType::class, [
                 'label' => 'Imagen del producto',
 
