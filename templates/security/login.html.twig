@@ -1,30 +1,143 @@
 {# /app/templates/security/login.html.twig #}
-{% extends 'base.html.twig' %}
+{% extends 'admin-base.html.twig' %}
 
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form method="post">
-    {# If there's any error, display it to the user #}
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <style>
+        .user_card {
+			height: 400px;
+			width: 350px;
+			margin-top: 10rem;
+			margin-bottom: auto;
+			background: #f39c12;
+			position: relative;
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			padding: 10px;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			border-radius: 5px;
 
-    <h1>Please sign in</h1>
-    
-    {# Email Input #}
-    <label for="inputEmail" class="sr-only">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
-    
-    {# Password Input #}
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-    
-    {# CSRF Token Input #}
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+		}
+		.brand_logo_container {
+			position: absolute;
+			height: 170px;
+			width: 170px;
+			top: -75px;
+			border-radius: 50%;
+			background: #60a3bc;
+			padding: 10px;
+			text-align: center;
+		}
+		.brand_logo {
+			height: 150px;
+			width: 150px;
+			border-radius: 50%;
+			border: 2px solid white;
+		}
+		.form_container {
+			margin-top: 100px;
+		}
+		.login_btn {
+			width: 100%;
+			background: #c0392b !important;
+			color: white !important;
+		}
+		.login_btn:focus {
+			box-shadow: none !important;
+			outline: 0px !important;
+		}
+		.login_container {
+			padding: 0 2rem;
+		}
+		.input-group-text {
+			background: #c0392b !important;
+			color: white !important;
+			border: 0 !important;
+			border-radius: 0.25rem 0 0 0.25rem !important;
+		}
+		.input_user,
+		.input_pass:focus {
+			box-shadow: none !important;
+			outline: 0px !important;
+		}
+		.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+			background-color: #c0392b !important;
+		}
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+        .alert-danger {
+
+    color: white;
+    background-color: #ce1021;
+    border-color: #f5c6cb;
+    width: -moz-available;
+    margin-top: 2rem;
+    text-align: center;
+
+}
+    </style>
+
+	<div class="container h-100">
+		<div class="d-flex justify-content-center h-100">
+			<div class="user_card">
+				<div class="d-flex justify-content-center">
+					<div class="brand_logo_container">
+                    
+						<img src="{{ asset('uploads/imagenes/logo.jpeg') }}" class="brand_logo" alt="Logo">
+						{# <img src="http://127.0.0.1:8000/uploads/imagenes/logo.jpeg" class="brand_logo" alt="Logo"> #}
+					</div>
+				</div>
+                
+                
+				<div class="d-flex justify-content-center form_container">
+                    
+					<form method="post">
+                    {# <form> #}
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
+							<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control input_user" placeholder="Email" required autofocus>
+                            {# <input type="text" name="" class="form-control input_user" value="" placeholder="username"> #}
+                            
+                            {# <label for="inputEmail" class="sr-only">Email</label>
+                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+                            #}
+                        </div>
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							{# <input type="password" name="" class="form-control input_pass" value="" placeholder="password"> #}
+                            <input type="password" name="password" id="inputPassword" class="form-control input_pass" placeholder="Password" required>
+
+                        </div>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+
+
+						<div class="d-flex justify-content-center mt-3 login_container">
+                            {# <button type="button" name="button" class="btn login_btn">Login</button> #}
+                                <button class="btn btn-lg btn-primary login_btn" type="submit">
+                                    Sign in
+                                </button>
+                        </div>
+					</form>
+                    
+				</div>
+                
+                <div class="row">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+                </div>
+				 
+			</div>
+		</div>
+	</div>
+
+ 
 {% endblock %}

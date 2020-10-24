@@ -23,17 +23,17 @@
 
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                        <li class="nav-item">
+                        {# <li class="nav-item">
                             <a class="nav-link {{ (app.request.pathinfo == '/') ? 'active' : '' }} " href='{{ path('home') }}' >Home <span class="sr-only">(current)</span></a>
+                        </li> #}
+                        <li class="nav-item">
+                            <a class="nav-link {{ (app.request.pathinfo matches '{^/admin/productos*}') ? 'active' : '' }} " href="{{ path('admin_productos') }}">Productos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (app.request.pathinfo matches '{^/productos*}') ? 'active' : '' }} " href="{{ path('producto_controlller') }}">Productos</a>
+                            <a class="nav-link {{ (app.request.pathinfo matches '{^/admin/ventas*}') ? 'active' : '' }} " href="{{ path('admin_ventas') }}">Ventas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (app.request.pathinfo matches '{^/ventas*}') ? 'active' : '' }} " href="{{ path('ventas') }}">Ventas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ (app.request.pathinfo == '/reporte') ? 'active' : '' }} " href="{{ path('reporte') }}">Reportes</a>
+                            <a class="nav-link {{ (app.request.pathinfo == '/admin/reporte') ? 'active' : '' }} " href="{{ path('admin_reporte') }}">Reportes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ (app.request.pathinfo == '/salir') ? 'active' : '' }} " href="#">Salir</a>

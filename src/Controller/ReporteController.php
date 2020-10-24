@@ -10,7 +10,7 @@ use App\Entity\Venta;
 class ReporteController extends AbstractController
 {
     /**
-     * @Route("/reporte", name="reporte")
+     * @Route("/admin/reporte", name="admin_reporte")
      */
     public function index()
     {   
@@ -40,7 +40,7 @@ class ReporteController extends AbstractController
             array_push($cantidad_productos, (int)$producto['cantidad']);
         } 
  
-        return $this->render('reporte/index.html.twig', [
+        return $this->render('admin/reporte/index.html.twig', [
             'controller_name' => 'ReporteController',
             'fechas' => json_encode($fechas),
             'cantidad_ventas' => json_encode($cantidad_ventas),
@@ -51,7 +51,7 @@ class ReporteController extends AbstractController
  
     
     /**
-     * @Route("/reporte/ventas", name="reporte_ventas")
+     * @Route("/admin/reporte/ventas", name="reporte_ventas")
      */
     public function ventas()
     {   

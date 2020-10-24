@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class VentaController extends AbstractController
 {   
     /**
-     * @Route("/", name="home")
+     * @Route("/admin/", name="home")
      */
     public function home()
     {   
@@ -35,7 +35,7 @@ class VentaController extends AbstractController
             ['enabled' => 1 ] 
         ); 
 
-        return $this->render('venta/home.html.twig', [
+        return $this->render('admin/venta/home.html.twig', [
             'controller_name' => 'VentaController',
             'ventas' => $ventas,
             'productos' => $productos
@@ -43,29 +43,26 @@ class VentaController extends AbstractController
     }
 
     /**
-     * @Route("/ventas", name="ventas")
+     * @Route("/admin/ventas", name="admin_ventas")
      */
     public function index()
     {   
         $repository = $this->getDoctrine()->getRepository(Venta::class);
 
-        // $ventas = $repository->findAll(); 
-        $ventas = $repository->findBy(
+         $ventas = $repository->findBy(
             ['enabled' => 1 ] 
         ); 
 
-        return $this->render('venta/index.html.twig', [
+        return $this->render('admin/venta/index.html.twig', [
             'controller_name' => 'VentaController',
             'ventas' => $ventas
         ]);
     }
-
-    
-
+ 
     /**
-     * @Route("/ventas/crear", name="v_crear_venta")
+     * @Route("/admin/ventas/crear", name="crear_venta")
      */
-    public function v_crear_venta(Request $request)
+    public function crear_venta(Request $request)
     {
         $venta = new Venta();
         $form = $this->createForm(FormVenta::class, $venta);
@@ -86,14 +83,14 @@ class VentaController extends AbstractController
 
             $this->addFlash('success', 'Venta creada exitosamente');
 
-            return $this->redirectToRoute('v_editar_venta', array(
+            return $this->redirectToRoute('editar_venta', array(
                 'id' => $venta_data->getId()
             ));
         }
         else
         {   
 
-            return $this->render('venta/crear.html.twig', array(
+            return $this->render('admin/venta/crear.html.twig', array(
                 'form' => $form->createView(),
             ));
 
@@ -103,10 +100,10 @@ class VentaController extends AbstractController
     }
     
     /**
-     * @Route("/ventas/editar/{id}", name="v_editar_venta"  )
+     * @Route("/admin/ventas/editar/{id}", name="editar_venta"  )
      * @ParamConverter("form", class="App\FormVentaProducto\FormVentaProducto")
      */
-    public function v_editar_venta( Request $request, $id, FormVentaProducto $form = NULL )
+    public function editar_venta( Request $request, $id, FormVentaProducto $form = NULL )
     {   
   
         $entityManager = $this->getDoctrine()->getManager(); 
@@ -137,7 +134,7 @@ class VentaController extends AbstractController
 
             //return $this->redirectToRoute('ventas');
 
-            return $this->redirectToRoute('v_editar_venta', array(
+            return $this->redirectToRoute('editar_venta', array(
                 'id' => $id
             ));
         }
@@ -205,7 +202,7 @@ class VentaController extends AbstractController
 
                 } 
                  
-                return $this->redirectToRoute('v_editar_venta', array(
+                return $this->redirectToRoute('editar_venta', array(
                     'id' => $id
                 )); 
             }
@@ -224,7 +221,7 @@ class VentaController extends AbstractController
                 $repository = $this->getDoctrine()->getRepository(Producto::class);
                 $listadoProductos = $repository->findAll(); 
                 
-                return $this->render('venta/editar.html.twig', array(
+                return $this->render('admin/venta/editar.html.twig', array(
                     'id' => $id,
                     'venta' => $venta,
                     'form' => $form_venta->createView(),
@@ -255,7 +252,7 @@ class VentaController extends AbstractController
     }
 
     /**
-     * @Route("/ventas/eliminar/{id}", name="eliminar_venta")
+     * @Route("/admin/ventas/eliminar/{id}", name="eliminar_venta")
      */
     public function eliminar_venta( Request $request, $id )
     {   
@@ -273,11 +270,11 @@ class VentaController extends AbstractController
 
         $this->addFlash('success', 'Venta eliminada exitosamente');
 
-        return $this->redirectToRoute('ventas');
+        return $this->redirectToRoute('admin_ventas');
     }
 
     /**
-     * @Route("/agergar/producto", name="agregar_producto_venta")
+     * @Route("/admin/ventas/agregar/producto", name="agregar_producto_venta")
      */
     
     public function agregar_producto_venta(Request $request)
@@ -325,201 +322,12 @@ class VentaController extends AbstractController
         
     
     }
-
-     /**
-     * @Route("/ventas/crear-producto-venta", name="v_crear_producto_venta")
-     */
-    public function v_crear_producto_venta(Request $request)
-    {
-        $productoVenta = new ProductoVenta();
-        $form = $this->createForm(FormVentaProducto::class, $productoVenta);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) 
-        {   
-            $producto_venta = $form->getData();
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($producto_venta);
-            $entityManager->flush(); 
-
-            $this->addFlash('success', 'Producto agregado exitosamente');
-
-            return $this->redirectToRoute('v_editar_venta', array(
-                'id' => $producto_venta->getId()
-            )); 
-        }
-        else
-        {   
-
-            return $this->render('venta/crear-producto-venta.html.twig', array(
-                'form_producto_venta' => $form->createView(),
-            ));
-
-        } 
-
-    }
-
-
-
-
-
-
-        // $venta_id = $request->request->get('post_type_producto_venta')["venta_id"];
-        // $producto_id = $request->request->get('post_type_producto_venta')["producto_id"];
-        // $cantidad = $request->request->get('post_type_producto_venta')["cantidad"];
-        // $precio_costo = $request->request->get('post_type_producto_venta')["precio_costo"];
-        // $precio_venta = $request->request->get('post_type_producto_venta')["precio_venta"];
-
-        // $repository = $this->getDoctrine()->getRepository(Producto::class);
-        // $producto = $repository->findOneBy(['id' => $producto_id]);
-
-        // $repository = $this->getDoctrine()->getRepository(Venta::class);
-        // $venta = $repository->findOneBy(['id' => $venta_id]);
-
-        // $productoVenta = new ProductoVenta();
-
-        // $productoVenta->setProductoId($producto);
-        // $productoVenta->setVentaId($venta);
-        // $productoVenta->setCantidad($cantidad);
-        // $productoVenta->setPrecioCosto($precio_costo);
-        // $productoVenta->setPrecioVenta($precio_venta);
-        
-        // $form = $this->createForm(FormVentaProducto::class, $productoVenta);
-
-        // $form->handleRequest($request);
-
-        // if ($form->isSubmitted() && $form->isValid()) 
-        // {   
-        //     $response = new Response('<html>
-        //                                 <body>
-        //                                     <h1>Valido</h1>
-        //                                 </body>
-        //                             </html>');
-           
-
-        //     // $form->getData() holds the submitted values
-        //     // but, the original `$task` variable has also been updated
-        //     // $venta_data = $form->getData();
- 
-        //     // $entityManager = $this->getDoctrine()->getManager();
-        //     // $entityManager->persist($venta_data);
-        //     // $entityManager->flush();
-        //     // //$venta_data->getId();
-        //     // // return $this->redirectToRoute('/ventas/editar/2');
-
-        //     // $this->addFlash('success', 'Venta creada exitosamente');
-
-        //     // return $this->redirectToRoute('v_editar_venta', array(
-        //     //     'id' => $venta_data->getId()
-        //     // ));
-        // }
-        // else
-        // {   
-        //     $response = new Response('<html>
-        //                                 <body>
-        //                                     <h1>In Valido</h1>
-        //                                 </body>
-        //                             </html>');
-        //     // return $this->render('venta/crear.html.twig', array(
-        //     //     'form' => $form->createView(),
-        //     // ));
-
-        // }
-
-
-        // return $response;
-
-        // $venta_id = $request->request->get('post_type_producto_venta')["venta_id"];
-        // $producto_id = $request->request->get('post_type_producto_venta')["producto_id"];
-        // $cantidad = $request->request->get('post_type_producto_venta')["cantidad"];
-        // $precio_costo = $request->request->get('post_type_producto_venta')["precio_costo"];
-        // $precio_venta = $request->request->get('post_type_producto_venta')["precio_venta"];
-
-        // $repository = $this->getDoctrine()->getRepository(Producto::class);
-        // $producto = $repository->findOneBy(['id' => $producto_id]);
-
-        // $repository = $this->getDoctrine()->getRepository(Venta::class);
-        // $venta = $repository->findOneBy(['id' => $venta_id]);
-
-
-        // $productoVenta = new ProductoVenta();
-
-        // $productoVenta->setProductoId($producto);
-        // $productoVenta->setVentaId($venta);
-        // $productoVenta->setCantidad($cantidad);
-        // $productoVenta->setPrecioCosto($precio_costo);
-        // $productoVenta->setPrecioVenta($precio_venta);
-        // $entityManager = $this->getDoctrine()->getManager();
-        // $entityManager->persist($productoVenta);
-        // $entityManager->flush();
-
-        
-        // //$ProductoVenta = new ProductoVenta();
-        // $formProductoVenta = $this->createForm(     FormVentaProducto::class, 
-        //                                             $productoVenta, 
-        //                                             array(
-        //                                                 'action' => $this->generateUrl('agregar_producto_venta') 
-        //                                             )
-        //                                         );
-                                                
-        // $formProductoVenta->get('venta_id')->setData($venta_id);
-
-        // $response = new Response('<html>
-        //         <body>
-        //             <h1>Hello Symfony 4 World</h1>
-        //         </body>
-        //     </html>');
-        // return $response;
-        
-        // // $this->addFlash('formProductoVenta', $formProductoVenta );
-
-        // //return $this->redirectToRoute('ventas');
-        
-        // return $this->redirectToRoute('v_editar_venta', array(
-        //     'id' => $venta_id,
-        //     'form' => $formProductoVenta
-        // ));
-
-
-        //var_dump($request->query);
-        
-        /*
-        $formProductoVenta = $this->createForm(FormVentaProducto::class, $ProductoVenta, array(
-            'action' => $this->generateUrl('agregar_producto_venta') 
-        ));
-
-        $formProductoVenta->handleRequest($request);*/
-        
-        /*
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) 
-        {
- 
-            $task = $form->getData();
- 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($task);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('ventas');
-        }
-        else
-        {
-            return $this->render('producto_controlller/crear.html.twig', array(
-                'form' => $form->createView(),
-            ));
-
-        }*/
-       
-    
+  
 
     /**
-     * @Route("/ventas/eliminar/producto/{id_venta}/{id_producto}", name="v_eliminar_producto_venta")
+     * @Route("/admin/ventas/eliminar/producto/{id_venta}/{id_producto}", name="eliminar_producto_venta")
      */
-    public function v_eliminar_producto_venta( Request $request, $id_venta, $id_producto )
+    public function eliminar_producto_venta( Request $request, $id_venta, $id_producto )
     {   
         //echo $id_venta.",".$id_producto."<br><br>";
         $repository = $this->getDoctrine()->getRepository(ProductoVenta::class);
@@ -538,35 +346,7 @@ class VentaController extends AbstractController
 
         $this->addFlash('success', 'Producto eliminado de la venta exitosamente' );
 
-        return $this->redirectToRoute('v_editar_venta', array('id' => $id_venta));
+        return $this->redirectToRoute('editar_venta', array('id' => $id_venta));
     }
-
-    /**
-     * @Route("/prueba", name="prueba")
-     */
-    
-    public function prueba( )
-    {   
-        echo "<br>aaa<br>";
-
-        $id = 1;
-        $repository = $this->getDoctrine()->getRepository(Venta::class);
-        $venta = $repository->findOneBy(['id' => $id]);
-        $productosVenta = $venta->getProductosVenta()->toArray() ;
-
-        foreach($productosVenta as $producto)
-        {   
-            echo "<pre>";
-            echo print_r($producto->getPrecioVenta());
-            echo "</pre>";
-        }
-
-        $response = new Response('<html>
-            <body>
-                <h1>Hello Symfony 4 World</h1>
-            </body>
-        </html>');
-
-        return $response;
-    }
+ 
 }

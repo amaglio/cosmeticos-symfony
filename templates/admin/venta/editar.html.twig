@@ -124,7 +124,7 @@
                                                         <td class="text-center"><span class="unidad">$</span> {{ producto.getPrecioVenta() - producto.getPrecioCosto()   }}</td>
                                                         <td class="text-center">{{ (( producto.getPrecioVenta() - producto.getPrecioCosto() ) * 100 / producto.getPrecioCosto()) |round(2, 'floor') }}%</td>
                                                         <td class="text-center">
-                                                            <a onclick="return confirm('Seguro desea eliminar el producto de la venta ? No se puede deshacer.')" href="{{ path('v_eliminar_producto_venta',{id_producto: producto.getProductoId().getId(), id_venta: id } ) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar el producto"> <i class="fas fa-trash" aria-hidden="true"></i>  </a>                                </td>
+                                                            <a onclick="return confirm('Seguro desea eliminar el producto de la venta ? No se puede deshacer.')" href="{{ path('eliminar_producto_venta',{id_producto: producto.getProductoId().getId(), id_venta: id } ) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar el producto"> <i class="fas fa-trash" aria-hidden="true"></i>  </a>                                </td>
                                                         </td>
                                                     </tr>
                                                 {% endfor %}
