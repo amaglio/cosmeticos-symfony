@@ -67,6 +67,11 @@ class Producto
      */
     private $imagen = "sinfoto.jpg";
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $destacado_home;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -174,6 +179,18 @@ class Producto
     public function setImagen(?string $imagen): self
     {
         $this->imagen = $imagen;
+
+        return $this;
+    }
+
+    public function getDestacadoHome(): ?bool
+    {
+        return $this->destacado_home;
+    }
+
+    public function setDestacadoHome(bool $destacado_home): self
+    {
+        $this->destacado_home = $destacado_home;
 
         return $this;
     }
