@@ -2,6 +2,7 @@
 namespace App\FormCrear;
 
 use App\Entity\Producto;
+use App\Entity\ProductoCategoria;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -10,8 +11,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\FileType; 
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class FormProducto extends AbstractType
 {
@@ -23,16 +26,27 @@ class FormProducto extends AbstractType
                 'label' => 'Nombre del producto',
                 'attr' => ['class' => 'col-md-12 form-control']
             ])
+            ->add('categoria',EntityType::class, [
+                'class' => ProductoCategoria::class,
+                'label' => 'Categoria del producto',
+                'placeholder' => 'Seleccione una categoria',
+                'attr' => [     'class' => 'col-md-12 form-control' ] 
+            ])
             ->add('codigo', IntegerType::class, [
                 'label' => 'Codigo',
                 'attr' => ['class' => 'col-md-12 form-control']
             ])
             ->add('descripcion', TextareaType::class, [ 
                 'attr' => ['class' => 'col-md-12 form-control']
-            ]) 
+            ])
+            
             ->add('precio_costo', MoneyType::class, [ 
-                'attr' => [ 'class' => 'col-md-12 form-cont,rol',
+                'attr' => [ 'class' => 'col-md-12 form-control',
                             'step' => 0.01 ]
+            ])
+            ->add('destacado_home', CheckboxType::class, [ 
+                'attr' => [ 'class' => 'col-md-12 form-control'  ],
+                'required' => false
             ])
             ->add('precio_venta', MoneyType::class, [ 
                 'attr' => ['class' => 'col-md-12 form-control',
@@ -65,6 +79,7 @@ class FormProducto extends AbstractType
                     ])
                 ],
             ])
+            
             ->add('submit', SubmitType::class, [
                 'label' => 'Guardar',
                 'attr' => ['class' => 'btn btn-info btn-xs text-center form-control'],

@@ -72,6 +72,12 @@ class Producto
      */
     private $destacado_home;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ProductoCategoria::class, inversedBy="productos")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $categoria;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -191,6 +197,18 @@ class Producto
     public function setDestacadoHome(bool $destacado_home): self
     {
         $this->destacado_home = $destacado_home;
+
+        return $this;
+    }
+
+    public function getCategoria(): ?ProductoCategoria
+    {
+        return $this->categoria;
+    }
+
+    public function setCategoria(?ProductoCategoria $categoria): self
+    {
+        $this->categoria = $categoria;
 
         return $this;
     }
