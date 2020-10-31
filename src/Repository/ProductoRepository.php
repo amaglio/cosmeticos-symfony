@@ -47,4 +47,33 @@ class ProductoRepository extends ServiceEntityRepository
      
         return $stmt->fetchAll();
     }
+
+     /**
+     * @return Producto[]
+     */
+    public function findByCategory($id): array
+    {   
+        // $this->getEntityManager()
+        //             ->createQuery(
+        //                 "SELECT p FROM App\Entity\Producto p 
+        //                 where p.nombre LIKE  :str 
+        //                 ORDER BY p.nombre ASC"
+        //             )
+        //             ->setParameter('str', '%'.$string.'%')
+        //             ->getResult();
+
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p
+             FROM App\Entity\Producto p
+             WHERE p.categoria = :str
+             AND  p.enabled = 1
+             ORDER BY p.nombre ASC'
+             )
+             ->setParameter('str', $id);
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
 }

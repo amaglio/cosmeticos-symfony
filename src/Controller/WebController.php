@@ -5,8 +5,13 @@ namespace App\Controller;
 use App\Entity\Producto;
 use App\Entity\ProductoCategoria;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class WebController extends AbstractController
 {
@@ -61,7 +66,7 @@ class WebController extends AbstractController
      */
 
     public function show_product(Request $request, $id)
-    {
+    {    
         $entityManager = $this->getDoctrine()->getManager();
         $producto = $entityManager->getRepository(Producto::class)->find($id);
 
@@ -70,7 +75,48 @@ class WebController extends AbstractController
                 'There are no producto with the following id: ' . $id
             );
         }
+
+        $normalizer = new ObjectNormalizer();
+        $encoder = new JsonEncoder();
         
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        //$serializer->serialize($producto, 'json', ['ignored_attributes' => ['categoria']]); 
+
+        $response = new Response();
+        $response->setContent( $serializer->serialize($producto, 'json', ['ignored_attributes' => ['categoria']]));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response; 
+    }
+
+    /**
+     * @Route("/get/product/type/{id}", name="get_product_by_type")
+     */
+
+    public function get_product_by_type(Request $request, $id)
+    {    
+        // $entityManager = $this->getDoctrine()->getManager();
+        // $productos = $entityManager->getRepository(Producto::class)->findByCategory($id);
+        $repository = $this->getDoctrine()->getRepository(Producto::class);
+
+        $productos = $repository->findBy(
+            ['enabled' => 1, 'categoria' => $id]
+        );
+
+        if (!$productos) {
+            throw $this->createNotFoundException(
+                'There are no producto with the categori id: ' . $id
+            );
+        }
+
+        $normalizer = new ObjectNormalizer();
+        $encoder = new JsonEncoder();
         
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        //$serializer->serialize($productos, 'json', ['ignored_attributes' => ['categoria']]); 
+
+        $response = new Response();
+        $response->setContent( $serializer->serialize($productos,'json',['ignored_attributes' => ['categoria']]));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response; 
     }
 }

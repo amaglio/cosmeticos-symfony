@@ -39,6 +39,8 @@ class ProductoRepositoryold extends ServiceEntityRepository
         // returns an array of Product objects
         return $query->getResult();
     }
+
+    
  
     // MOVIES 
      public function transform(Producto $producto)
